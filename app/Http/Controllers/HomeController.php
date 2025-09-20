@@ -24,10 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('review.pages.home');
     }
     public function notes()
     {
-        return view('notes');
+        return view('review.app.notes');
     }
 }

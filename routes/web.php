@@ -25,15 +25,15 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('review.pages.landing-page');
 
 });
 
-Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('review.pages.home', [HomeController::class, 'index'])->name('review.pages.home');
 
-Route::get('statistik', [StatistikController::class, 'index'])->name('statistik');
+Route::get('review.app.statistik', [StatistikController::class, 'index'])->name('review.app.statistik');
 
-Route::get('profile', ProfileController::class)->middleware('auth')->name('profile');
+Route::get('review.app.profile', ProfileController::class)->middleware('auth')->name('review.app.profile');
 
 
 Auth::routes();

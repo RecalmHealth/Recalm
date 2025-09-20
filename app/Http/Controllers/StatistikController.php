@@ -10,7 +10,7 @@ class StatistikController extends Controller
 {
     public function index(EmployeesChart $chart)
     {
-        return view('statistik', [
+        return view('review.app.statistik', [
             'chart' => $chart->build()
         ]);
     }

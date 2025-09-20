@@ -9,12 +9,13 @@
         @vite('resources/sass/app.scss')
 </head>
 <body>
-    @include('review.components.navbar-app')
+    @include('review.components.navbar')
 
     <main class="py-4">
         @yield('content')
     </main>
 
+    @include('review.components.footer')
     @vite('resources/js/app.js')
 
 </body>

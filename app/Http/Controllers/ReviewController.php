@@ -13,6 +13,6 @@ class ReviewController extends Controller
         $notes = Notes::all();
 
         // Mengarahkan data ke view
-        return view('review.index', compact('notes'));
+        return view('review.app.note', compact('notes'));
     }
 }

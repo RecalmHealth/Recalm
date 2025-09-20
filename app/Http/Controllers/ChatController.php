@@ -11,6 +11,6 @@ class ChatController extends Controller
      */
     public function index()
     {
-        return view('chat'); // Pastikan file chat.blade.php ada di folder resources/views
+        return view('review.app.chat'); // Pastikan file chat.blade.php ada di folder resources/views
     }
 }

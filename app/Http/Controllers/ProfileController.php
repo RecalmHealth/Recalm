@@ -13,6 +13,6 @@ class ProfileController extends Controller
     {
         $pageTitle = 'Profile';
 
-        return view('profile', ['pageTitle' => $pageTitle]);
+        return view('review.app.profile', ['pageTitle' => $pageTitle]);
     }
 }

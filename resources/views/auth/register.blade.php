@@ -15,7 +15,7 @@
         <div class="row h-100">
             <!--Left Side-->
             <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center bg-white">
-                <img src="{{ Vite::asset('resources/images/recalm.png') }}" alt="logo-recalm" class="mb-3"
+                <img src="{{ Vite::asset('public/images/recalm.png') }}" alt="logo-recalm" class="mb-3"
                     style="width: 150px; height: auto;">
                 <!-- <h1 class="text-primary fw-bold mb-4">RECALM</h1> -->
                 <h2 class="fs-5 fw-bold mb-4">Create Account</h2>
@@ -59,10 +59,10 @@
                     </div>
                     <div class="d-flex justify-content-center gap-5">
                         <button type="button" class="btn btn-light border">
-                            <img src="{{ Vite::asset('resources/images/google.png') }}" alt="Google" width="40">
+                            <img src="{{ Vite::asset('public/images/google.png') }}" alt="Google" width="40">
                         </button>
                         <button type="button" class="btn btn-light border">
-                            <img src="{{ Vite::asset('resources/images/facebook.png') }}" alt="Facebook" width="40">
+                            <img src="{{ Vite::asset('public/images/facebook.png') }}" alt="Facebook" width="40">
                         </button>
                     </div>
                     <br>
@@ -83,7 +83,7 @@
                     <h4 class="fs-6 fw-bold mb-3 text-white">Take a step towards peace, resilience, and happiness.</h4>
                 </div>
                 <!-- Gambar yang berada di bawah -->
-                <img src="{{ Vite::asset('resources/images/hutan_1.png') }}" alt="hutan" class="d-block mx-auto"
+                <img src="{{ Vite::asset('public/images/hutan_1.png') }}" alt="hutan" class="d-block mx-auto"
                     style="position: absolute; bottom: 0; left: 0; width: 100%; object-fit: cover;">
             </div>
         </div>
