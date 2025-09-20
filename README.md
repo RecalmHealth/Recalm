@@ -1,66 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Recalm-MentalHealth 
+Recalm adalah sebuah platform berbasis website yang membantu individu dalam menjaga dan meningkatkan kesehatan mental melalui konten edukatif, fitur konsultasi, serta dukungan komunitas yang aman dan nyaman.
+# Rules Contriobutor
+**Writing Rules**
+- Penamaan file tidak boleh di singkat gunakan tanda `-` ketika ada spasi : `contoh : /home-page`
+- Untuk penamaan file lebih baik gunakan lowercase agar konsisten
+- Hindari penamaan singkat (`landing-page.blade.php`) menjadi (`lndg-pge.blade.php`)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Catatan Penamaan Branch**
+- Silahkan membuat `branch` anda sendiri sebelum mengerjakan fitur
+- contoh : `nama/feature` = `budi/landing-pages`
 
-## About Laravel
+**File Rules**
+- Segala sesuatu yang berhubungan dengan gambar simpan di dalam folder `public/assets/images/`
+- Folder `layouts` Berfungsi untuk menyimpan file kerangka (layout utama) yang digunakan sebagai template dasar.
+- Folder `review/app` Berfungsi untuk menyimpan halaman inti aplikasi (fitur utama yang hanya bisa diakses setelah login atau otentikasi).
+- Folder `review/components` Berfungsi untuk menyimpan komponen UI pendukung yang dapat digunakan ulang di berbagai halaman.
+- Folder `review/pages` Berfungsi untuk menyimpan halaman umum atau public-facing yang bisa diakses tanpa login.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Penjelasan Environment Branch
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Jangan langsung mengedit code di dalam 5 branch ini, jika ingin mengedit code harus berdasarkan aturan yang berlaku yaitu membuat branch baru.
+- `main` adalah branch utama yang menyimpan versi terbaru dari aplikasi dengan fitur-fitur yang sudah digabungkan (merge).
+- `develop`  merupakan branch yang berfungsi untuk menyimpan perubahan fitur-fitur yang sudah di merger untuk sementara.
+- `testing` berfungsi untuk menyimpan perubahan setelah fitur-fitur tersebut di develop, lalu jika tidak ada error atau bug maka bisa langsung di merge ke brnach main.
+- `staging` adalah hasil dari merging dari branch main, namun dibagian staging ini harus mengubah configurasi menjadi configurasi production, untuk mengetes apakah ada bug atau error ketika sudah di deploy untuk sementara.
+- `production` adalah hasil akhir jika keseluruhan aplikasi tidak mengalami kendala lagi seperti adanya bug dan error. Hal ini juga sudah bisa di akses oleh users.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Warning
+- Jangan pernah menghapus folder atau file apapun yg sudah ada atau bawaan dari laravel
+- Jika ingin melakukan `git push` dan pull request pada project ini silahkan lakukan `git pull` ke branch `main` terlebih dahulu di lokal komputer
+- Silahkan git push ke branch anda sendiri jangan langsung ke branch `main` atau `develop`
+- Jika terjadi konflik silahkan perbaiki terlebih dahulu sebelum `push` ke branch anda
+- Jika sudah selesai semua silahkan berikan `commit` yang jelas dan `pull request` ke branch `develop`
 
-## Learning Laravel
+## Instalation
+Clone Repository
+```sh
+git clone https://github.com/Recalm-Health/Recalm.git
+```
+Tulis perintah dibawah in untuk menginstal depedensi yang di perlukan 
+```sh
+composer install
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+npm install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Lalu copy file .env 
+```sh
+cp .env.example .env
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Setelah itu lakukan generate key
+```sh
+php artisan key:generate
+```
 
-## Laravel Sponsors
+Jalankan migration dan seeder
+```sh
+php artisan migrate
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+php artisan migrate:fresh --seed
+```
 
-### Premium Partners
+## Running Project
+```sh
+php artisan serve    
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+npm run dev
+```
