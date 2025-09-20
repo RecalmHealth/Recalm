@@ -27,7 +27,7 @@ Recalm adalah sebuah platform berbasis website yang membantu individu dalam menj
 ## Instalation
 Clone Repository
 ```sh
-git clone https://github.com/Recalm-Health/Recalm.git
+git clone https://github.com/RecalmHealth/Recalm.git
 ```
 Tulis perintah dibawah in untuk menginstal depedensi yang di perlukan 
 ```sh
