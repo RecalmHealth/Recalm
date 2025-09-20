@@ -1,6 +1,6 @@
 # Recalm-MentalHealth 
 Recalm adalah sebuah platform berbasis website yang membantu individu dalam menjaga dan meningkatkan kesehatan mental melalui konten edukatif, fitur konsultasi, serta dukungan komunitas yang aman dan nyaman.
-# Rules Contriobutor
+# Rules Contributor
 **Writing Rules**
 - Penamaan file tidak boleh di singkat gunakan tanda `-` ketika ada spasi : `contoh : /home-page`
 - Untuk penamaan file lebih baik gunakan lowercase agar konsisten
