@@ -6,6 +6,14 @@ Recalm adalah sebuah platform berbasis website yang membantu individu dalam menj
 - Untuk penamaan file lebih baik gunakan lowercase agar konsisten
 - Hindari penamaan singkat (`landing-page.blade.php`) menjadi (`lndg-pge.blade.php`)
 
+# DOD
+- [ ]  Acceptance Criteria tiap backlog item terpenuhi dan diverifikasi
+- [ ]  Branch telah di-merge ke main dan konflik sudah diselesaikan
+- [ ]  Fitur telah di-deploy ke environment staging untuk verifikasi akhir
+- [ ]  Tidak ada warning/error di build log
+- [ ]  Telah dilakukan Test product dan tidak ada kendala
+
+
 **File Rules**
 - Segala sesuatu yang berhubungan dengan gambar simpan di dalam folder `public/assets/images/`
 - Folder `layouts` berfungsi untuk menyimpan file kerangka (layout utama) yang digunakan sebagai template dasar.
