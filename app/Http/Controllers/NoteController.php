@@ -44,13 +44,14 @@ class NoteController extends Controller
 
         // Simpan data ke database
         $note = new Notes();
+        $note->user_id = auth()->id();
         $note->note = $request->input('note-field');
         $note->mood = $request->input('mood');
         $note->save();
 
 
 
-        return redirect()->route('home')->with('success', 'Data berhasil disimpan!');
+        return redirect()->route('notes')->with('success', 'Data berhasil disimpan!');
     }
 
 

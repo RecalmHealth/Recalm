@@ -28,6 +28,7 @@ class HomeController extends Controller
     }
     public function notes()
     {
-        return view('review.app.notes');
+        $notes = \App\Models\notes::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();
+        return view('review.app.notes', compact('notes'));
     }
 }
