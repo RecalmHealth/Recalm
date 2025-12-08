@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\notes;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\ArtikelController;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('review.pages.home');
+
+        // Ambil artikel kesehatan mental
+        $artikelController = new ArtikelController();
+        $articles = $artikelController->getArticles();
+
+        $currentYear = Carbon::now()->year;
+
+        return view('review.pages.home', compact(
+            'articles',
+        ));
     }
+
     public function notes()
     {
         $notes = \App\Models\notes::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();
