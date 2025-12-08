@@ -1,38 +1,53 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
-@section('title', 'Home')
+@section('title', 'Notes')
+
 @section('content')
-<body>
 
-    <!-- Welcome Section -->
-    <div>
-        <div class="container py-4">
-            <div class="row">
-                <div class="col-md-12 bg-white sidebar p-4">
-                    <form action="{{ route('note.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3 text-center">
-                            <label for="note" class="form-label" style="font-size: 30px"><b>Ceritain Hari Kamu</b></label>
-                            <textarea class="form-control text-area" id="note-field" name="note-field" rows="10"
-                                placeholder="Silahkan apa yang kamu rasakan hari ini" style="font-size: 20px"></textarea>
-                            <!--MOOD-->
-                            <br>
-                            <label for="mood" style="font-size: 20px"><b> Mood</b></label>
-                            <select name="mood" id="mood" class="form-control"
-                                style="font-size: 20px; height: 60px;">
-                                <option value="Sedih"> &#128557; Sedih</option>
-                                <option value="Senang">&#128515; Senang</option>
-                                <option value="Marah">&#128545; Marah</option>
-                            </select>
-                            <div id="emailHelp" class="form-text" style="font-size:15px">Tenang.. Cerita kamu bakal aman
-                                kok!</div>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 btn-sumbit" style="font-size:25px;">Simpan
-                            Catatan</button>
-                    </form>
+    <div class="row">
+        <!-- Note Editor -->
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm p-5" style="border-radius: 30px; height: 85vh;">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <h3 class="fw-bold" style="color: #4361EE;" id="editor-date">{{ now()->format('d F Y') }}</h3>
+
                 </div>
+
+                <form action="{{ route('note.store') }}" method="POST" class="h-100 d-flex flex-column">
+                    @csrf
+                    <input type="hidden" name="mood" id="mood-input" value="Senang">
+                    
+                    <div class="flex-grow-1 mb-4 p-3" style="border: 1px solid #e0e0e0; border-radius: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+                        <textarea class="form-control border-0 bg-transparent h-100" 
+                            id="note-field" name="note-field" 
+                            placeholder="" 
+                            style="resize: none; font-size: 1.1rem; box-shadow: none;"></textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-primary flex-grow-1 py-3 fw-bold fs-5 shadow-sm" style="border-radius: 15px; background-color: #4361EE; border: none;">Simpan Catatan</button>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <!-- Konten end -->
+
+
+<script>
+
+
+    function setMood(mood) {
+        document.getElementById('mood-input').value = mood;
+        document.getElementById('moodDropdown').innerText = mood;
+    }
+</script>
+
+<style>
+    .note-item:hover {
+        transform: translateY(-2px);
+        background-color: #fff !important;
+    }
+
+</style>
 @endsection
