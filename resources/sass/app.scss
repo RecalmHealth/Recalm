@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 // Variables
 @import 'variables';
@@ -10,6 +10,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    background-color: #E3E8FF; /* Light lavender-blue background from design */
 }
 
 #gray{
