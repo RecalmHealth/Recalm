@@ -167,9 +167,9 @@
 
                 {{-- Social Login --}}
                 <div class="d-flex justify-content-center mb-4">
-                    <button type="button" class="btn border-0 p-0">
+                    <a href="{{ route('auth.google') }}" class="btn border-0 p-0">
                         <img src="{{ asset('images/google.png') }}" alt="Google" width="30">
-                    </button>
+                    </a>
                 </div>
 
                 {{-- Toggle Link --}}
@@ -210,9 +210,9 @@
 
                 {{-- Social Login --}}
                 <div class="d-flex justify-content-center mb-4">
-                    <button type="button" class="btn border-0 p-0">
+                    <a href="{{ route('auth.google') }}" class="btn border-0 p-0">
                         <img src="{{ asset('images/google.png') }}" alt="Google" width="30">
-                    </button>
+                    </a>
                 </div>
 
                 {{-- Toggle Link --}}

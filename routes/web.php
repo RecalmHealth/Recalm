@@ -59,6 +59,9 @@ Route::post('/logout', function () {
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
+Route::get('auth/google', [App\Http\Controllers\Auth\GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [App\Http\Controllers\Auth\GoogleController::class, 'handleGoogleCallback']);
+
 Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/update', [UserProfileController::class, 'update'])->middleware('auth')->name('profile.update');
 
