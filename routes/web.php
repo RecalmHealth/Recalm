@@ -25,8 +25,7 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/', function () {
-    return view('review.pages.landing-page');
-
+    return redirect('/home');
 });
 
 Route::get('review.pages.home', [HomeController::class, 'index'])->name('review.pages.home');
@@ -35,7 +34,6 @@ Route::get('review.app.statistik', [StatistikController::class, 'index'])->name(
 
 Route::get('review.app.profile', ProfileController::class)->middleware('auth')->name('review.app.profile');
 
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -43,7 +41,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/notes', [App\Http\Controllers\HomeController::class, 'notes'])->name('notes');
 
 Route::post('/notes', [NoteController::class, 'store'])->name('note.store');
-
 
 Route::post('/store', [App\Http\Controllers\HomeController::class, 'store']);
 
@@ -57,7 +54,7 @@ Route::get('/login', function () {
 
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/');
+    return redirect('/home');
 })->name('logout');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
@@ -70,3 +67,4 @@ Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik
 Route::get('/chat', [ChatController::class, 'index'])->name('chat')->middleware('auth');
 
 Route::get('/review', [ReviewController::class, 'index'])->name('review.index')->middleware('auth');
+
