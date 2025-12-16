@@ -3,6 +3,16 @@
 @section('title', 'Notes')
 
 @section('content')
+<style>
+    @keyframes pulse-red {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+    }
+    .recording-active {
+        animation: pulse-red 1.5s infinite;
+    }
+</style>
 <div class="container-fluid px-4">
     <div class="row justify-content-center">
         <!-- Note Editor -->
@@ -37,7 +47,7 @@
                     
                     <div class="d-flex gap-3">
                         <button type="submit" class="btn btn-primary flex-grow-1 py-3 fw-bold fs-5 shadow-sm" style="border-radius: 15px; background-color: #4361EE; border: none;">Simpan Catatan</button>
-                        <button type="button" class="btn btn-primary px-4 shadow-sm" style="border-radius: 15px; background-color: #4361EE; border: none;">
+                        <button type="button" class="btn btn-primary px-4 shadow-sm" id="start-recording" style="border-radius: 15px; background-color: #4361EE; border: none;">
                             <i class="bi bi-mic-fill fs-4"></i>
                         </button>
                     </div>
@@ -108,5 +118,109 @@
 
         return true;
     }
+
+    // --- Speech to Text Implementation ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const micButton = document.getElementById('start-recording');
+        const noteField = document.getElementById('note-field');
+        
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            
+            recognition.continuous = true;
+            recognition.lang = 'id-ID'; 
+            recognition.interimResults = true;
+
+            let isRecording = false;
+            let finalAtStart = ''; // Text when recording started
+
+            micButton.addEventListener('click', function() {
+                if (isRecording) {
+                    recognition.stop();
+                } else {
+                    finalAtStart = noteField.value; // Save existing text
+                    // Add space if needed
+                    if (finalAtStart.length > 0 && !finalAtStart.endsWith(' ')) {
+                        finalAtStart += ' ';
+                    }
+                    recognition.start();
+                }
+            });
+
+            recognition.onstart = function() {
+                isRecording = true;
+                micButton.classList.add('recording-active');
+                micButton.innerHTML = '<i class="bi bi-stop-fill fs-4"></i>';
+                micButton.style.backgroundColor = '#dc3545';
+                console.log('Recording started...');
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                micButton.classList.remove('recording-active');
+                micButton.innerHTML = '<i class="bi bi-mic-fill fs-4"></i>';
+                micButton.style.backgroundColor = '#4361EE';
+                console.log('Recording ended.');
+            };
+
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                
+                // If resultIndex is 0, we could rebuild significantly.
+                // But generally in continuous mode, we want:
+                // Existing Text (finalAtStart) + All Final Results (since start) + Current Interim
+                
+                // Better strategy for standard display:
+                // Rebuild the whole session string from event.results every time
+                let sessionString = '';
+                for (let i = 0; i < event.results.length; ++i) {
+                    sessionString += event.results[i][0].transcript;
+                }
+                
+                // Update UI
+                noteField.value = finalAtStart + sessionString;
+                
+                // Scroll to bottom
+                noteField.scrollTop = noteField.scrollHeight;
+                
+                // Debug
+                console.log('Transcript:', sessionString);
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error', event.error);
+                if (event.error === 'no-speech') {
+                    // Do nothing for no-speech
+                    return;
+                }
+                
+                // For other errors, stop and alert
+                recognition.stop();
+                
+                let msg = 'Terjadi kesalahan.';
+                if (event.error === 'not-allowed') msg = 'Izin mikrofon ditolak.';
+                if (event.error === 'network') msg = 'Masalah jaringan / koneksi.';
+                
+                Swal.fire({
+                   icon: 'error',
+                   title: 'Error Mic',
+                   text: msg,
+                });
+            };
+
+        } else {
+            micButton.style.display = 'none';
+        }
+    });
 </script>
 @endsection
