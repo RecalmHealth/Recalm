@@ -7,6 +7,8 @@
     <div class="row justify-content-center">
         <!-- Note Editor -->
         <div class="col-md-10">
+            <!-- Alert replaced by SweetAlert popup -->
+            
             <div class="card border-0 shadow-sm p-5" style="border-radius: 30px; height: 85vh;">
                 <div class="d-flex justify-content-between align-items-start mb-4">
                     <h3 class="fw-bold" style="color: #4361EE;" id="editor-date">{{ now()->format('d F Y') }}</h3>
@@ -22,7 +24,7 @@
                     </div>
                 </div>
 
-                <form action="{{ route('note.store') }}" method="POST" class="h-100 d-flex flex-column">
+                <form action="{{ route('note.store') }}" method="POST" class="h-100 d-flex flex-column" onsubmit="return checkAuth(event)">
                     @csrf
                     <input type="hidden" name="mood" id="mood-input" value="">
                     
@@ -45,7 +47,25 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Success Notification
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+            });
+        @endif
+    });
+
     function selectNote(date, content, mood) {
         document.getElementById('editor-date').innerText = date;
         document.getElementById('note-field').value = content;
@@ -60,29 +80,33 @@
         const emoji = moodEmojis[mood] || '';
         
         document.getElementById('mood-input').value = mood;
-        // Use innerHTML to render HTML entities or emojis correctly
         document.getElementById('moodDropdown').innerHTML = `${emoji} ${mood}`;
     }
-</script>
 
-<style>
-    .note-item:hover {
-        transform: translateY(-2px);
-        background-color: #fff !important;
+    function checkAuth(event) {
+        // 1. Check Authentication
+        const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+        if (!isAuthenticated) {
+            event.preventDefault();
+            const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+            authModal.show();
+            return false;
+        }
+
+        // 2. Check Mood Selection
+        const mood = document.getElementById('mood-input').value;
+        if (!mood) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Kamu belum memilih mood hari ini!',
+                confirmButtonColor: '#4361EE'
+            });
+            return false;
+        }
+
+        return true;
     }
-    /* Custom scrollbar for the list */
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-        background: transparent; 
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
-        border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
-    }
-</style>
+</script>
 @endsection
