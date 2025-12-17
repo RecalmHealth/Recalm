@@ -12,7 +12,7 @@ class notes extends Model
         protected $table = 'notes';
 
         // Kolom-kolom yang dapat diisi (fillable)
-        protected $fillable = ['Note', 'Mood'];
+        protected $fillable = ['user_id', 'Note', 'Mood'];
 
 
 }
