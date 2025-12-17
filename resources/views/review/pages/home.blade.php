@@ -26,21 +26,3 @@
   @include('review.components.artikel')
 </div>
 @endsection
-
-<!-- @extends('layouts.app')
-
-@section('title', 'Home')
-
-@section('content')
-<div class="home-content p-0">
-    <div class="row g-0 mb-2 align-items-stretch" style="margin-left: 1.4rem; margin-right: 1.4rem;">
-        <div class="col-12 col-lg-8 mb-2 mb-lg-0" style="padding-right: 0.6rem;">
-            @include('review.components.mood')
-        </div>
-        <div class="col-12 col-lg-4" style="padding-left: 0.6rem;">
-            @include('review.components.calendar')
-        </div>
-    </div>
-    @include('review.components.artikel')
-</div>
-@endsection -->
