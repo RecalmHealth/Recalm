@@ -249,7 +249,7 @@ function toggleAuthMode(mode) {
 {{-- minimal custom CSS for spacing / typography (let it live inside component or external file) --}}
 <style>
 .top-nav {
-    padding: 8px 50px;
+    padding: 8px 30px;
     margin-top: 1.5rem
 }
 .greeting-sub {

@@ -12,20 +12,6 @@
     .recording-active {
         animation: pulse-red 1.5s infinite;
     }
-    /* Custom scrollbar for the list */
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
     .note-item:hover {
         transform: translateY(-2px);
         background-color: #fff !important;

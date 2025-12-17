@@ -27,6 +27,7 @@
     }
 
     // Determine if streak should be shown
+    
     $showStreak = isset($streak) && $streak >= 3;
 
     // Month names in Indonesian

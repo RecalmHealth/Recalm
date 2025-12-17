@@ -67,7 +67,7 @@ Route::post('/profile/update', [UserProfileController::class, 'update'])->middle
 
 Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik');
 
-Route::get('/chat', [ChatController::class, 'index'])->name('chat')->middleware('auth');
+Route::get('/chat', [ChatController::class, 'index'])->name('chat');
 
 Route::get('/review', [ReviewController::class, 'index'])->name('review.index')->middleware('auth');
 
