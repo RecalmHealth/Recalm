@@ -112,7 +112,7 @@
 </section>
 <style>
   .article-custom-padding {
-    padding: 8px 45px;
+    padding: 8px 30px;
   }
   .artikel-component .artikel-header {
     font-size: 1.2rem;
@@ -275,7 +275,7 @@
   .article-source-badge {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px;
     background: rgba(66, 85, 217, 0.9);
     color: white;
     padding: 3px 8px;
