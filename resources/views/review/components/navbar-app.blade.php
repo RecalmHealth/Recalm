@@ -186,15 +186,30 @@
                 @csrf
                 <div class="mb-3">
                     <label for="register-name" class="form-label fw-bold">Full Name</label>
-                    <input type="text" class="form-control py-2 ps-3" id="register-name" name="name" placeholder="Nama Lengkap" style="border-radius: 8px; border: 1px solid #ced4da;" required>
+                    <input type="text" class="form-control py-2 ps-3 @error('name') is-invalid @enderror" id="register-name" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" style="border-radius: 8px; border: 1px solid #ced4da;" required>
+                    @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="register-email" class="form-label fw-bold">Email</label>
-                    <input type="email" class="form-control py-2 ps-3" id="register-email" name="email" placeholder="contoh@email.com" style="border-radius: 8px; border: 1px solid #ced4da;" required>
+                    <input type="email" class="form-control py-2 ps-3 @error('email') is-invalid @enderror" id="register-email" name="email" placeholder="contoh@email.com" value="{{ old('email') }}" style="border-radius: 8px; border: 1px solid #ced4da;" required>
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <label for="register-password" class="form-label fw-bold">Password</label>
-                    <input type="password" class="form-control py-2 ps-3" id="register-password" name="password" placeholder="*******" style="border-radius: 8px; border: 1px solid #ced4da;" required>
+                    <input type="password" class="form-control py-2 ps-3 @error('password') is-invalid @enderror" id="register-password" name="password" placeholder="*******" style="border-radius: 8px; border: 1px solid #ced4da;" required>
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
 
                 <div class="d-grid mb-4">
@@ -244,7 +259,36 @@ function toggleAuthMode(mode) {
         modalTitle.innerText = 'Login';
     }
 }
+
 </script>
+
+{{-- Auto-open registration modal on error --}}
+@if($errors->any() && ($errors->has('name') || old('name')))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if bootstrap is available
+            if (typeof bootstrap !== 'undefined') {
+                var authModalInfo = document.getElementById('authModal');
+                if(authModalInfo) {
+                    var myModal = new bootstrap.Modal(authModalInfo);
+                    myModal.show();
+                    // Ensure global function is available or inline the logic if needed context is lost.
+                    // Since it's in a separate script tag but same page, global window scope functions work.
+                    if (typeof toggleAuthMode === 'function') {
+                        toggleAuthMode('register');
+                    } else {
+                         // Fallback inline logic if function not found
+                        document.getElementById('login-form-section').style.display = 'none';
+                        document.getElementById('register-form-section').style.display = 'block';
+                        document.getElementById('modalTitle').innerText = 'Register';
+                    }
+                }
+            } else {
+                console.error("Bootstrap is not loaded yet.");
+            }
+        });
+    </script>
+@endif
 
 {{-- minimal custom CSS for spacing / typography (let it live inside component or external file) --}}
 <style>
