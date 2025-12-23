@@ -3,5 +3,7 @@
 @section('title', 'Mood Kamu')
 
 @section('content')
-    {{-- Content cleared as requested --}}
+    <div class="container-fluid p-4">
+        {{-- Content cleared as requested --}}
+    </div>
 @endsection

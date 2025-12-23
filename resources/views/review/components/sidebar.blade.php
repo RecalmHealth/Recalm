@@ -9,38 +9,61 @@
     {{-- Navigation --}}
     <nav class="sidebar-nav ps-4">
         <ul class="nav flex-column list-unstyled">
-            <li class="nav-item mb-2 {{ request()->routeIs('home') ? 'active' : '' }}">
-                <a href="{{ route('home') }}" class="nav-link d-flex align-items-center text-white">
-                    <span class="icon d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('images/icon/dashboard.png') }}" width="34" height="34">
-                    </span>
-                    <span class="nav-text fw-light">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item mb-2 {{ request()->routeIs('notes') ? 'active' : '' }}">
-                <a href="{{ route('notes') }}" class="nav-link d-flex align-items-center text-white">
-                    <span class="icon d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('images/icon/note.png') }}" width="34" height="34">
-                    </span>
-                    <span class="nav-text fw-light">Take Notes</span>
-                </a>
-            </li>
-            <li class="nav-item mb-2 {{ request()->routeIs('chat') ? 'active' : '' }}">
-                <a href="{{ route('chat') }}" class="nav-link d-flex align-items-center text-white">
-                    <span class="icon d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('images/icon/Ai.png') }}" width="34" height="34">
-                    </span>
-                    <span class="nav-text fw-light">AI Chat</span>
-                </a>
-            </li>
-            <li class="nav-item mb-2 {{ request()->routeIs('statistik') ? 'active' : '' }}">
-                <a href="{{ route('statistik') }}" class="nav-link d-flex align-items-center text-white">
-                    <span class="icon d-flex align-items-center justify-content-center">
-                        <img src="{{ asset('images/icon/chart.png') }}" width="34" height="34">
-                    </span>
-                    <span class="nav-text fw-light">Mood Kamu</span>
-                </a>
-            </li>
+            @if(request()->routeIs('review.app.profile'))
+                <li class="nav-item mb-2">
+                    <a href="{{ route('home') }}" class="nav-link d-flex align-items-center text-white">
+                        <span class="icon d-flex align-items-center justify-content-center">
+                            {{-- Menggunakan icon Bootstrap yang mirip dengan style image --}}
+                            <i class="bi bi-arrow-left-circle-fill" style="font-size: 30px;"></i>
+                        </span>
+                        <span class="nav-text fw-light">Back To Home</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();" class="nav-link d-flex align-items-center text-danger">
+                        <span class="icon d-flex align-items-center justify-content-center">
+                            <i class="bi bi-box-arrow-right" style="font-size: 30px;"></i>
+                        </span>
+                        <span class="nav-text fw-bold text-danger">Logout Account</span>
+                    </a>
+                    <form id="logout-form-sidebar" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+            @else
+                <li class="nav-item mb-2 {{ request()->routeIs('home') ? 'active' : '' }}">
+                    <a href="{{ route('home') }}" class="nav-link d-flex align-items-center text-white">
+                        <span class="icon d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('images/icon/dashboard.png') }}" width="34" height="34">
+                        </span>
+                        <span class="nav-text fw-light">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2 {{ request()->routeIs('notes') ? 'active' : '' }}">
+                    <a href="{{ route('notes') }}" class="nav-link d-flex align-items-center text-white">
+                        <span class="icon d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('images/icon/note.png') }}" width="34" height="34">
+                        </span>
+                        <span class="nav-text fw-light">Take Notes</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2 {{ request()->routeIs('chat') ? 'active' : '' }}">
+                    <a href="{{ route('chat') }}" class="nav-link d-flex align-items-center text-white">
+                        <span class="icon d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('images/icon/Ai.png') }}" width="34" height="34">
+                        </span>
+                        <span class="nav-text fw-light">AI Chat</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2 {{ request()->routeIs('statistik') ? 'active' : '' }}">
+                    <a href="{{ route('statistik') }}" class="nav-link d-flex align-items-center text-white">
+                        <span class="icon d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('images/icon/chart.png') }}" width="34" height="34">
+                        </span>
+                        <span class="nav-text fw-light">Mood Kamu</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </nav>
 </aside>
