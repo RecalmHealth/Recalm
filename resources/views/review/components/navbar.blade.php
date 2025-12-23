@@ -1,5 +1,5 @@
 <style>
-    .btn-gradient {
+.btn-gradient {
     background-image: linear-gradient(
         90deg,
         #1D307A 0%,
@@ -8,12 +8,17 @@
     );
     border: none;
 }
+.navbar {
+  width: 100%;
+}
+
 .nav-link {
     position: relative;
     display: inline-block; /* PENTING */
 }
 
 .navbar-inner {
+    max-width: 1920px;
     padding-left: 140px;
     padding-right: 140px;
 }
@@ -61,21 +66,16 @@
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2">
-    <div class="container-fluid navbar-inner">
+    <div class="navbar-inner mx-auto d-flex align-items-center w-100">
 
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('home') }}">
-            <img
-                src="{{ Vite::asset('public/images/logo/Recalm-Blue.png') }}"
-                alt="Logo Recalm"
-                class="h-auto"
-                style="max-width:130px;"
-            >
+            <img src="{{ Vite::asset('public/images/logo/Recalm-Blue.png') }}" alt="Logo Recalm" style="max-width:130px;">
         </a>
 
         <!-- Hamburger -->
         <button
-            class="navbar-toggler"
+            class="navbar-toggler ms-auto"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar"

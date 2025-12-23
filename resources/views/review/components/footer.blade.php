@@ -1,4 +1,4 @@
- <footer id="gray" class="bg-primary text-white text-center py-4">
+ {{-- <footer id="gray" class="bg-primary text-white text-center py-4">
      <div class="container" style="height: 7vh;">
          <p class="mb-1">&copy; 2024 RECALM. All Rights Reserved.</p>
          <ul class="list-inline mb-0">
@@ -15,4 +15,4 @@
              <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
          </div>
      </div>
- </footer>
+ </footer> --}}
