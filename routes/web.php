@@ -25,7 +25,7 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/', function () {
-    return redirect('/home');
+    return view('review.pages.landing-page');
 });
 
 Route::get('review.pages.home', [HomeController::class, 'index'])->name('review.pages.home');
@@ -54,7 +54,7 @@ Route::get('/login', function () {
 
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/home');
+    return redirect('/');
 })->name('logout');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
