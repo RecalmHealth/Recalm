@@ -34,5 +34,61 @@
     <img class="hero-ground  z-0 m-0 p-0" src="{{ asset('images/landing-01.png') }}" alt="" aria-hidden="true">
 </section>
 
+{{-- about section --}}
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center hero-about">
+      <!-- left: ilustrasi -->
+      <div class="col-12 col-lg-6 text-center mb-4 mb-lg-0">
+        <img src="{{ asset('images/about-img.png') }}"
+             alt="Mental Health Illustration"
+             class="about-img img-fluid rounded-4 mx-auto d-block">
+      </div>
+
+      <!-- right: logo, deskripsi, benefit -->
+      <div class="col-12 col-lg-6">
+        <!-- Logo (center) -->
+        <img src="{{ asset('images/Recalm-about02.png') }}"
+             alt="Logo Recalm"
+             class="about-logo mx-auto d-block mb-3" />
+
+        <!-- Deskripsi (center block, teks justify di CSS) -->
+        <p class="lead text-muted about-desc mx-auto mb-4">
+          Recalm adalah sebuah platform berbasis website yang membantu
+          individu dalam menjaga dan meningkatkan kesehatan mental
+          melalui konten edukatif, fitur konsultasi, serta dukungan
+          komunitas yang aman dan nyaman.
+        </p>
+
+        <!-- Benefit list (center block). gunakan utilitas Bootstrap ps-0 & mb-0 -->
+        <ul class="list-unstyled benefit-about mx-auto ps-0 mb-0">
+          <li class="benefit-item d-flex align-items-center">
+            <span class="benefit-icon flex-shrink-0 me-3" aria-hidden="true">
+              <img src="{{ asset('images/About-01.png') }}" alt="" width="44" height="44">
+            </span>
+            <span class="benefit-text">Temani Perjalanan Kesehatan Mentalmu</span>
+          </li>
+
+          <li class="benefit-item d-flex align-items-center">
+            <span class="benefit-icon flex-shrink-0 me-3" aria-hidden="true">
+              <img src="{{ asset('images/About-02.png') }}" alt="" width="44" height="44">
+            </span>
+            <span class="benefit-text">Ruangan Aman untuk Mengenal Dirimu</span>
+          </li>
+
+          <li class="benefit-item d-flex align-items-center">
+            <span class="benefit-icon flex-shrink-0 me-3" aria-hidden="true">
+              <img src="{{ asset('images/About-03.png') }}" alt="" width="44" height="44">
+            </span>
+            <span class="benefit-text">Your Daily Mental Wellness Companion</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
 
 @endsection
