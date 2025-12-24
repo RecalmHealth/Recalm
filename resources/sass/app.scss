@@ -8,10 +8,18 @@
 @import 'bootstrap/scss/bootstrap';
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
+:root {
+    --teks-recalm: #1F3483;
+    --blue-900: #1D3079;
+    --blue-700: #3559DF;
+    --muted: #1F3483;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #E3E8FF; /* Light lavender-blue background from design */
 }
+
 
 #gray{
 background-color: rgb(62, 62, 62)!important;
@@ -82,11 +90,6 @@ footer {
 }
 
 /* landing page */
-:root {
-    --blue-900: #1D3079;
-    --blue-700: #3559DF;
-    --muted: #1F3483;
-}
 .hero {
     height: calc(100vh - 61px);
 }
@@ -140,7 +143,90 @@ footer {
     object-fit: fill;
     pointer-events: none;
 }
+.hero-about {
+  margin-top: 5rem;
+}
+.about-img {
+  width: 88%;
+  max-width: 780px;
+  height: auto;
+  filter: drop-shadow(0 20px 16px rgba(0,0,0,0.25));
+}
+.about-logo {
+  width: 100%;
+  max-width: 378px;
+  height: auto;
+  display: block;
+}
+.about-desc {
+  max-width: 378px;
+  text-align: justify;
+  color: var(--teks-recalm);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+.benefit-about {
+  max-width: 378px;
+}
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.benefit-icon img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.benefit-text {
+  font-weight: 600;
+  color: var(--teks-recalm);
+  line-height: 1.25;
+  font-size: 1rem;
+}
 
+.motivation-section {
+    height: 89px;
+    background-color: #3351BF;
+}
+
+.motivation-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    font-style: italic;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+    opacity: 0;
+    filter: blur(12px);
+    transform: scale(0.95);
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.motivation-text.mobile {
+    font-size: 18px;
+}
+
+/* Bootstrap Carousel Fade Override */
+.carousel-fade .carousel-item {
+    opacity: 0;
+    transition-duration: 1.2s;
+    transition-property: opacity;
+}
+.carousel-fade .carousel-item.active {
+    opacity: 1;
+}
+
+/* Active State (Visible/Shadow In) */
+.carousel-item.active .motivation-text {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+    transition-delay: 0.2s; /* Slight delay for enter */
+}
 
 @media (min-width: 576px) and (max-width: 991.98px) {
     .hero {
@@ -245,49 +331,6 @@ footer {
     }
 
 }
-.hero-about {
-  margin-top: 5rem;
-}
-.about-img {
-  width: 88%;
-  max-width: 780px;
-  height: auto;
-  filter: drop-shadow(0 20px 16px rgba(0,0,0,0.25));
-}
-.about-logo {
-  width: 100%;
-  max-width: 378px;
-  height: auto;
-  display: block;
-}
-.about-desc {
-  max-width: 378px;
-  text-align: justify;
-  color: #54607a;
-  line-height: 1.6;
-  font-size: 1rem;
-}
-.benefit-about {
-  max-width: 378px;
-}
-.benefit-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-.benefit-icon img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-}
-.benefit-text {
-  font-weight: 600;
-  color: #29314D;
-  line-height: 1.25;
-  font-size: 1rem;
-}
-
 @media (min-width: 576px) and (max-width: 991.98px) {
   .about-img {
     width: 100%;
