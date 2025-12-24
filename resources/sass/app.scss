@@ -243,4 +243,83 @@ footer {
         justify-content: center;
         align-items: center;
     }
+
+}
+.hero-about {
+  margin-top: 5rem;
+}
+.about-img {
+  width: 88%;
+  max-width: 780px;
+  height: auto;
+  filter: drop-shadow(0 20px 16px rgba(0,0,0,0.25));
+}
+.about-logo {
+  width: 100%;
+  max-width: 378px;
+  height: auto;
+  display: block;
+}
+.about-desc {
+  max-width: 378px;
+  text-align: justify;
+  color: #54607a;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+.benefit-about {
+  max-width: 378px;
+}
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.benefit-icon img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.benefit-text {
+  font-weight: 600;
+  color: #29314D;
+  line-height: 1.25;
+  font-size: 1rem;
+}
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .about-img {
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 3rem;
+  }
+  .about-desc {
+    max-width: 620px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+  }
+  .benefit-about {
+    max-width: 360px;
+  }
+  .about-logo {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .about-img {
+    max-width: 360px;
+  }
+  .about-desc,
+  .benefit-about,
+  .benefit-item,
+  .about-logo {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+  .about-desc { text-align: justify; }
 }
