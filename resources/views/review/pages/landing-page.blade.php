@@ -53,7 +53,7 @@
              class="about-logo mx-auto d-block mb-3" />
 
         <!-- Deskripsi (center block, teks justify di CSS) -->
-        <p class="lead text-muted about-desc mx-auto mb-4">
+        <p class="lead about-desc mx-auto mb-4">
           Recalm adalah sebuah platform berbasis website yang membantu
           individu dalam menjaga dan meningkatkan kesehatan mental
           melalui konten edukatif, fitur konsultasi, serta dukungan
@@ -87,6 +87,44 @@
     </div>
   </div>
 </section>
+{{-- feature section --}}
+
+
+{{-- article section --}}
+
+
+{{-- motivate section --}}
+<section class="motivation-section d-none d-lg-flex align-items-center justify-content-center overflow-hidden position-relative w-100">
+    <div id="motivationCarousel" class="carousel slide carousel-fade w-100 h-100" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-inner h-100">
+            @foreach($motivations as $index => $quote)
+            <div class="carousel-item h-100 {{ $index === 0 ? 'active' : '' }}">
+                 <div class="d-flex align-items-center justify-content-center h-100 w-100 px-3">
+                    <p class="motivation-text mb-0">{{ $quote }}</p>
+                 </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- Mobile fallback (simpler height/font) -->
+<section class="motivation-section d-flex d-lg-none align-items-center justify-content-center overflow-hidden position-relative w-100">
+    <div id="motivationCarouselMobile" class="carousel slide carousel-fade w-100 h-100" data-bs-ride="carousel" data-bs-interval="3500">
+         <div class="carousel-inner h-100">
+            @foreach($motivations as $index => $quote)
+            <div class="carousel-item h-100 {{ $index === 0 ? 'active' : '' }}">
+                 <div class="d-flex align-items-center justify-content-center h-100 w-100 px-3">
+                     <p class="motivation-text mobile mb-0">{{ $quote }}</p>
+                 </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- timdev section --}}
+
 
 
 
