@@ -19,8 +19,25 @@
 
             <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                 @csrf
-
-                {{-- Bagian Foto (Belum Ada) --}}
+                <div class="d-flex align-items-center mb-4 gap-4">
+                    <div class="position-relative">
+                        <!-- Preview Image -->
+                        <img id="profilePreview"
+                             src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('images/default_profile.png') }}"
+                             alt="Profile photo"
+                             class="rounded-circle"
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                    </div>
+                    <div>
+                        <label for="photo" class="btn btn-secondary btn-sm mb-2 px-3" style="background-color: #6c757d; border: none; font-size: 12px; border-radius: 4px;">
+                            Pilih Foto
+                        </label>
+                        <input type="file" id="photo" name="photo" class="d-none" onchange="previewImage(event)">
+                        <p class="text-danger m-0" style="font-size: 11px;">
+                            * Gambar foto profile anda sebaiknya memiliki rasio 1:1 dan berukuran tidak lebih dari 2 MB.
+                        </p>
+                    </div>
+                </div>
 
                 <div class="mb-4" style="max-width: 600px;">
                     <label for="fullName" class="form-label mb-2" style="font-weight: 500; font-size: 16px;">Nama Lengkap</label>
@@ -46,4 +63,32 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+            });
+        @endif
+    });
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('profilePreview');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 @endsection
