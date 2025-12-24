@@ -13,6 +13,7 @@ use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\LandingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,9 +25,7 @@ use App\Http\Controllers\ReviewController;
 |
 */
 
-Route::get('/', function () {
-    return view('review.pages.landing-page');
-});
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Route::get('review.pages.home', [HomeController::class, 'index'])->name('review.pages.home');
 
