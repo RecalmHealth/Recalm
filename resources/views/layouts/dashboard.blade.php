@@ -6,10 +6,13 @@
     <title>@yield('title', 'Recalm')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     @vite('resources/sass/app.scss')
     <style>
         body {
+            font-family: 'Poppins', sans-serif;
             background-color: #eef2f6; /* Light bluish background */
             overflow: hidden; /* Prevent body scroll */
             height: 100vh;
@@ -28,7 +31,9 @@
         
         @include('review.components.sidebar')
         <div class="main-content">
-            @include('review.components.navbar-app')
+            @if(!request()->routeIs('review.app.profile'))
+                @include('review.components.navbar-app')
+            @endif
 
             <div class="p-4">
                 @yield('content')
