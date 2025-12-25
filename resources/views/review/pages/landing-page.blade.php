@@ -88,7 +88,56 @@
   </div>
 </section>
 {{-- feature section --}}
+<section class="feature-section overflow-hidden">
+    <div class="feature-content-wrapper">
+        <!-- decorative background TOP (decorative: aria-hidden) -->
+        <img src="{{ asset('images/hutan-feature01.png') }}" alt="" class="feature-bg-top" aria-hidden="true">
 
+        <div class="container-xl px-lg-5 position-relative z-2">
+            <div class="text-center text-white mb-5">
+                <h2 class="display-5 fw-bold mb-2 fst-italic">OUR FEATURES</h2>
+                <p class="mb-0">Bukan cuma nemenin, Recalm selalu ada buat kamu</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <article class="col-12 col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body text-center">
+                            <img src="{{ asset('images/book-01.png') }}"
+                                alt="" class="feature-icon mb-3" aria-hidden="true">
+                            <h3 class="h5 fw-semibold mb-2">Educational Articles</h3>
+                            <p class="text-muted mb-0"> Baca artikel dan panduan untuk memahami kesehatan emosionalmu lebih baik </p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body text-center">
+                            <img src="{{ asset('images/note-02.png') }}" alt="" class="feature-icon mb-3" aria-hidden="true">
+                            <h3 class="h5 fw-semibold mb-2">Taking Note</h3>
+                            <p class="text-muted mb-0"> Tuliskan mood dan pengalamanmu agar lebih mudah memahami diri sendiri. </p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body text-center">
+                            <img src="{{ asset('images/ai-03.png') }}" alt="" class="feature-icon mb-3" aria-hidden="true">
+                            <h3 class="h5 fw-semibold mb-2">AI Support Chat</h3>
+                            <p class="text-muted mb-0"> Ngobrol dengan AI untuk mendapatkan dukungan dan penjelasan yang kamu butuhkan. </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- decorative people (absolute; non-interactive) -->
+        <img src="{{ asset('images/people-feature01.png') }}" alt="" class="feature-people feature-people-left" aria-hidden="true">
+        <img src="{{ asset('images/people-feature02.png') }}" alt="" class="feature-people feature-people-right" aria-hidden="true">
+
+        <!-- decorative background BOTTOM -->
+        <img src="{{ asset('images/hutan-feature02.png') }}" alt="" class="feature-bg-bottom" aria-hidden="true">
+    </div>
+</section>
 
 {{-- article section --}}
 

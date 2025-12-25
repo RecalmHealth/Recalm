@@ -401,6 +401,142 @@ footer {
   }
   .about-desc { text-align: justify; }
 }
+
+:root {
+    --blue-primary: #3A54B4;
+    --blue-secondary: #2F4FC5;
+    --gradient-primary: linear-gradient(180deg, var(--blue-primary) 0%, var(--blue-secondary) 100%);
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --muted-text: #5b6576;
+}
+
+.feature-section {
+    background: var(--gradient-primary);
+    color: #fff;
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    position: relative;
+}
+
+.feature-content-wrapper {
+    position: relative;
+    max-width: 1920px;
+    margin-inline: auto;
+    width: 100%;
+    padding: 10rem 0 21rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.feature-bg-top,
+.feature-bg-bottom {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120vw;
+    max-width: 1920px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    display: block;
+    object-fit: cover;
+    height: 160px;
+    opacity: 1;
+}
+
+.feature-bg-top {
+    top: 0;
+    transform: translateX(-50%) translateY(-6%);
+}
+
+.feature-bg-bottom {
+    bottom: 0;
+    transform: translateX(-50%) translateY(6%);
+}
+
+.feature-content-wrapper .container {
+    position: relative;
+    z-index: 2;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(11, 22, 60, .12);
+    transition: transform .28s ease, box-shadow .28s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 60px rgba(11, 22, 60, .14);
+}
+
+.feature-icon {
+    width: 56px;
+    height: 56px;
+}
+
+.feature-people {
+    position: absolute;
+    bottom: 0;
+    width: 28%;
+    max-width: 420px;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+.feature-people-left {
+    left: 0;
+    transform: translate(0, 16%);
+}
+
+.feature-people-right {
+    right: 0;
+    transform: translate(0, 0);
+}
+
+@media (max-width: 991.98px) {
+    .feature-people {
+        display: none;
+    }
+
+    .feature-bg-top,
+    .feature-bg-bottom {
+        height: 110px;
+    }
+
+    .feature-content-wrapper {
+        padding: 5rem 0 10rem;
+    }
+
+    .feature-card {
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .feature-content-wrapper {
+        padding: 3.5rem 0;
+    }
+
+    .feature-bg-top,
+    .feature-bg-bottom {
+        height: 80px;
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .feature-card {
+        margin-inline: 0.75rem;
+    }
+}
+
 .team-header {
 background: linear-gradient(90deg, #1D3079 0%, #3559DF 100%);
 -webkit-background-clip: text;
