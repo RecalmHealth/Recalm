@@ -125,6 +125,88 @@
 
 
 {{-- timdev section --}}
+<section class="team-section py-5 mt-5" >
+    <div class="container-xl px-lg-5">
+         <div class="text-center mb-5">
+            <h2 class="team-header display-5 fw-bold fst-italic text-uppercase">LET’S MEET OUR TEAM</h2>
+        </div>
+
+        {{-- Desktop Team Carousel--}}
+        <div id="teamCarousel" class="carousel slide d-none d-lg-block" data-bs-interval="false">
+            <div class="carousel-inner">
+                @foreach(array_chunk($teamMembers, 4) as $chunkIndex => $chunk)
+                <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
+                    <div class="row g-4 justify-content-center px-4">
+                        @foreach($chunk as $member)
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="team-card position-relative">
+                                <!-- Image Container -->
+                                <div class="team-image-wrapper">
+                                     <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" class="team-image">
+                                </div>
+
+                                <!-- Content Box -->
+                                <div class="team-content">
+                                    <h4 class="team-name">{{ $member['name'] }}</h4>
+                                    <p class="team-moto mb-0">{{ $member['moto'] }}</p>
+                                </div>
+                                  <!-- Social Button -->
+                                  <a href="{{ $member['social_link'] }}" class="team-social-btn" aria-label="Social Media">
+                                      <i class="bi bi-arrow-right"></i>
+                                  </a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            @if(count($teamMembers) > 4)
+            <button class="carousel-control-prev team-nav-btn start-0" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
+                <span class="carousel-control-icon-wrapper">
+                    <i class="bi bi-chevron-left"></i>
+                </span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next team-nav-btn end-0" type="button" data-bs-target="#teamCarousel" data-bs-slide="next">
+                <span class="carousel-control-icon-wrapper">
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            @endif
+        </div>
+
+        {{-- Mobile Team Carousel --}}
+        <div id="teamCarouselMobile" class="carousel slide d-lg-none" data-bs-ride="carousel" data-bs-interval="3000">
+             <div class="carousel-inner">
+                @foreach($teamMembers as $index => $member)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <div class="d-flex justify-content-center px-2 pb-4">
+                        <div class="team-card position-relative" style="max-width: 320px;">
+                            <!-- Image Container -->
+                            <div class="team-image-wrapper">
+                                    <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" class="team-image">
+                            </div>
+
+                            <!-- Content Box -->
+                            <div class="team-content">
+                                <h4 class="team-name">{{ $member['name'] }}</h4>
+                                <p class="team-moto mb-0">{{ $member['moto'] }}</p>
+                            </div>
+                                <!-- Social Button -->
+                                <a href="{{ $member['social_link'] }}" class="team-social-btn" aria-label="Social Media">
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
 
 
 
