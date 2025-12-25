@@ -401,3 +401,134 @@ footer {
   }
   .about-desc { text-align: justify; }
 }
+.team-header {
+background: linear-gradient(90deg, #1D3079 0%, #3559DF 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+padding-right: 0.25em;
+}
+
+.team-card {
+    filter: drop-shadow(0 9px 6px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+}
+
+.team-image-wrapper {
+    width: 90%;
+    height: 380px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+
+.team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.team-content {
+    background: #ffffff;
+    width: 90%;
+    margin-top: -60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem 1.5rem 5rem 1.5rem;
+    position: relative;
+    z-index: 2;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 85%);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+.team-name {
+    color: #3559DF;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.team-moto {
+    color: #2b3674;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+.team-social-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 1.5rem;
+    width: 54px;
+    height: 54px;
+    background-color: #3559DF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(53, 89, 223, 0.4);
+}
+.team-social-btn:hover {
+    background-color: #1D3079;
+    transform: scale(1.1) rotate(-45deg);
+    color: white;
+}
+.team-nav-btn {
+    width: 60px;
+    height: 100%;
+    height: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+    bottom: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+}
+.team-nav-btn:hover {
+    opacity: 1;
+}
+.carousel-control-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background-color: #3559DF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(53, 89, 223, 0.3);
+    transition: all 0.3s ease;
+}
+.team-nav-btn:hover .carousel-control-icon-wrapper {
+    background-color: #1D3079;
+    transform: scale(1.1);
+}
+@media (max-width: 768px) {
+    .carousel-control-icon-wrapper {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+}
+#teamCarousel .carousel-inner {
+    padding: 30px 10px 50px 10px;
+}
