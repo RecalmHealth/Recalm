@@ -17,7 +17,6 @@ class LandingController extends Controller
             "“Kamu tetap keren karena sudah sampai di sini.”",
             "“Kamu nggak sendirian. Ada Recalm buat nemenin kamu.”"
         ];
-
         return view('review.pages.landing-page', compact( 'motivations'));
     }
 }
