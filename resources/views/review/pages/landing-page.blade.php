@@ -35,7 +35,7 @@
 </section>
 
 {{-- about section --}}
-<section class="py-5 bg-light">
+<section class="about-section py-5">
   <div class="container">
     <div class="row align-items-center hero-about">
       <!-- left: ilustrasi -->
@@ -94,7 +94,7 @@
 
 
 {{-- motivate section --}}
-<section class="motivation-section d-none d-lg-flex align-items-center justify-content-center overflow-hidden position-relative w-100">
+<section class="motivation-section d-none d-lg-flex align-items-center justify-content-center overflow-hidden position-relative mx-auto" style="max-width: 1920px;">
     <div id="motivationCarousel" class="carousel slide carousel-fade w-100 h-100" data-bs-ride="carousel" data-bs-interval="3500">
         <div class="carousel-inner h-100">
             @foreach($motivations as $index => $quote)
@@ -108,8 +108,8 @@
     </div>
 </section>
 
-<!-- Mobile fallback (simpler height/font) -->
-<section class="motivation-section d-flex d-lg-none align-items-center justify-content-center overflow-hidden position-relative w-100">
+{{-- Mobile fallback (simpler height/font) --}}
+<section class="motivation-section d-flex d-lg-none align-items-center justify-content-center overflow-hidden position-relative w-100 mx-auto" style="max-width: 1920px;">
     <div id="motivationCarouselMobile" class="carousel slide carousel-fade w-100 h-100" data-bs-ride="carousel" data-bs-interval="3500">
          <div class="carousel-inner h-100">
             @foreach($motivations as $index => $quote)
@@ -122,6 +122,7 @@
         </div>
     </div>
 </section>
+
 
 {{-- timdev section --}}
 
