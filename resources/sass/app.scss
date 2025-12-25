@@ -17,7 +17,8 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #E3E8FF; /* Light lavender-blue background from design */
+    background-color: #FFFFFF;
+    // background-color: #E3E8FF; /* Light lavender-blue background from design */
 }
 
 
@@ -91,11 +92,16 @@ footer {
 
 /* landing page */
 .hero {
-    height: calc(100vh - 61px);
+    /* height: calc(100vh - 61px); */
+    margin-top: 7em;
+    width: 100%;
+    max-width: 1920px;
+    margin-inline: auto;
+    position: relative;
 }
 
 .hero-content {
-     transform: translateY(-40%)
+    transform: translateY(-40%)
 }
 
 .hero-title {
@@ -103,21 +109,25 @@ footer {
     font-weight: 900;
     font-size: 2.8rem;
 }
+
 .hero-sub {
     color: var(--muted);
     padding-left: 0.3rem;
     max-width: 86%;
     font-size: 18px;
 }
+
 .text-solid {
     color: var(--blue-900)
 }
+
 .text-gradient {
     background: linear-gradient(90deg, #1D307A 0%, #2945AD 48%, #5578FF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     padding-right: 0.25em;
 }
+
 .btn-cta {
     padding-left: 0.3rem;
     cursor: pointer;
@@ -125,15 +135,18 @@ footer {
     box-shadow: 0 6px 18px rgba(47, 91, 255, 0.18);
     transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
 }
-.btn-cta:hover{
+
+.btn-cta:hover {
     transform: translateY(-2px) scale(1.03);
     box-shadow: 0 10px 26px rgba(47, 91, 255, 0.28);
 }
+
 .hero-illustration {
     max-width: 670px;
 }
+
 .hero-ground {
-  position: absolute;
+    position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -142,6 +155,10 @@ footer {
     height: 370px;
     object-fit: fill;
     pointer-events: none;
+}
+
+.about-section {
+    background-color: #FFFFFF;
 }
 .hero-about {
   margin-top: 5rem;
@@ -234,11 +251,14 @@ footer {
         padding-top: 3rem;
         padding-bottom: 3rem;
         align-items: flex-start !important;
+        margin-top: 0.5px;
     }
+
     .row.align-items-center {
         flex-direction: column;
         align-items: center;
     }
+
     .col-lg-6.ps-lg-5 {
         width: 100%;
         max-width: 100%;
@@ -247,26 +267,30 @@ footer {
         margin-bottom: 2rem;
         text-align: center;
     }
+
     .col-lg-6.ps-lg-5 .hero-title,
     .col-lg-6.ps-lg-5 .hero-sub {
         text-align: center;
         margin-left: auto;
         margin-right: auto;
     }
+
     .col-lg-6.ps-lg-5 .btn-cta {
         display: inline-flex;
         margin-top: 1rem;
         justify-content: center;
     }
-    .hero-content {
-     transform: translateY(10%)
 
+    .hero-content {
+        transform: translateY(10%)
     }
+
     .hero-illustration {
         max-width: 80%;
         height: auto;
         margin-top: 5rem;
     }
+
     .hero-ground {
         height: 240px;
         object-fit: cover;
@@ -279,11 +303,14 @@ footer {
         padding-top: 1.5rem;
         padding-bottom: 2.5rem;
         align-items: flex-start !important;
+        margin-top: 0.5px;
     }
+
     .row.align-items-center {
         flex-direction: column;
         align-items: stretch;
     }
+
     .col-lg-6.ps-lg-5 {
         width: 100%;
         max-width: 100%;
@@ -292,10 +319,12 @@ footer {
         margin-bottom: 1.25rem;
         text-align: left;
     }
+
     .col-lg-6.ps-lg-5 .hero-title,
     .col-lg-6.ps-lg-5 .hero-sub {
         text-align: left;
     }
+
     .col-lg-6.ps-lg-5 .btn-cta {
         display: block;
         width: -moz-fit-content;
@@ -304,25 +333,31 @@ footer {
         margin: 1rem auto 0;
         justify-content: center;
     }
+
     .hero-content {
-     transform: translateY(0%)
+        transform: translateY(0%)
     }
+
     .hero-title {
         font-size: 1.6rem;
         margin-top: 1em;
     }
+
     .hero-sub {
         font-size: 0.8rem;
         padding-left: 0.2rem;
     }
+
     .hero-illustration {
         max-width: 98%;
         height: auto;
         margin-top: 1.5rem;
     }
+
     .hero-ground {
         height: 120px;
     }
+
     .col-lg-6.text-lg-end.text-center,
     .col-lg-6.text-lg-end.text-center figure {
         display: flex;
