@@ -35,7 +35,7 @@
 </section>
 
 {{-- about section --}}
-<section class="about-section py-5">
+<section class="about-section py-5" id="about">
   <div class="container">
     <div class="row align-items-center hero-about">
       <!-- left: ilustrasi -->
@@ -88,7 +88,7 @@
   </div>
 </section>
 {{-- feature section --}}
-<section class="feature-section overflow-hidden">
+<section class="feature-section overflow-hidden" id="feature">
     <div class="feature-content-wrapper">
         <!-- decorative background TOP (decorative: aria-hidden) -->
         <img src="{{ asset('images/hutan-feature01.png') }}" alt="" class="feature-bg-top" aria-hidden="true">
@@ -174,7 +174,7 @@
 
 
 {{-- timdev section --}}
-<section class="team-section py-5 mt-5" >
+<section class="team-section py-5 mt-5" id="teamdev">
     <div class="container-xl px-lg-5">
          <div class="text-center mb-5">
             <h2 class="team-header display-5 fw-bold fst-italic text-uppercase">LET’S MEET OUR TEAM</h2>
