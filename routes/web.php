@@ -35,7 +35,7 @@ Route::get('review.app.profile', ProfileController::class)->middleware('auth')->
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Route::get('/notes', [App\Http\Controllers\HomeController::class, 'notes'])->name('notes');
 
