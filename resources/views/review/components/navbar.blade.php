@@ -93,11 +93,11 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav ms-lg-auto align-items-center align-items-lg-center text-center gap-lg-3 fs-5">
                     <li class="nav-item">
-                        <a class="nav-link text-primary fw-medium" href="#">Recalm</a>
+                        <a class="nav-link text-primary fw-medium" href="/#about">Recalm</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-primary fw-medium" href="#">Features</a>
+                        <a class="nav-link text-primary fw-medium" href="/#feature">Features</a>
                     </li>
 
                     <li class="nav-item">
@@ -105,15 +105,22 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-primary fw-medium" href="#">Dev Team</a>
+                        <a class="nav-link text-primary fw-medium" href="/#teamdev">Dev Team</a>
                     </li>
 
                     <!-- Button (SEMANTIC) -->
                     <li class="nav-item">
-                        <button class="btn btn-gradient fw-bold text-light rounded-pill px-4 py-2 py-lg-1 mt-2 mt-lg-0"
-                           data-bs-toggle="modal" data-bs-target="#authModal">
-                            Start Now
-                        </button>
+                        @guest
+                            <button class="btn btn-gradient fw-bold text-light rounded-pill px-4 py-2 py-lg-1 mt-2 mt-lg-0"
+                               data-bs-toggle="modal" data-bs-target="#authModal">
+                                Start Now
+                            </button>
+                        @endguest
+                        @auth
+                            <a href="{{ route('home') }}" class="btn btn-gradient fw-bold text-light rounded-pill px-4 py-2 py-lg-1 mt-2 mt-lg-0 text-decoration-none">
+                                Dashboard
+                            </a>
+                        @endauth
                     </li>
                 </ul>
             </div>
