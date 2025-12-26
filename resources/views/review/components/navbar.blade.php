@@ -101,7 +101,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-primary fw-medium" href="#">Article</a>
+                        <a class="nav-link text-primary fw-medium" href="/#landing-article">Article</a>
                     </li>
 
                     <li class="nav-item">
