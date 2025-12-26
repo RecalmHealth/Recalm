@@ -160,25 +160,37 @@ function toggleAuthMode(mode) {
 @if($errors->any() && ($errors->has('name') || old('name')))
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Check if bootstrap is available
             if (typeof bootstrap !== 'undefined') {
                 var authModalInfo = document.getElementById('authModal');
                 if(authModalInfo) {
                     var myModal = new bootstrap.Modal(authModalInfo);
                     myModal.show();
-                    // Ensure global function is available or inline the logic if needed context is lost.
-                    // Since it's in a separate script tag but same page, global window scope functions work.
                     if (typeof toggleAuthMode === 'function') {
                         toggleAuthMode('register');
                     } else {
-                         // Fallback inline logic if function not found
                         document.getElementById('login-form-section').style.display = 'none';
                         document.getElementById('register-form-section').style.display = 'block';
                         document.getElementById('modalTitle').innerText = 'Register';
                     }
                 }
-            } else {
-                console.error("Bootstrap is not loaded yet.");
+            }
+        });
+    </script>
+@endif
+
+@if(request()->has('login_required') && request()->get('login_required') == 'true')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+             if (typeof bootstrap !== 'undefined') {
+                var authModalInfo = document.getElementById('authModal');
+                if(authModalInfo) {
+                    var myModal = new bootstrap.Modal(authModalInfo);
+                    myModal.show();
+                    // Default is login, so we don't need to toggle to register
+                    if (typeof toggleAuthMode === 'function') {
+                        toggleAuthMode('login');
+                    }
+                }
             }
         });
     </script>
