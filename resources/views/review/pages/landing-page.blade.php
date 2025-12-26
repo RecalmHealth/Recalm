@@ -20,7 +20,11 @@
                     Recalm hadir untuk menemani kamu mengenali, menjaga,
                     dan mengembangkan kesehatan emosimu.
                 </p>
-                <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-4 px-4 py-2 text-white" href="#" role="button" aria-label="Mulai perjalanan - Begin Your Journey" data-bs-toggle="modal" data-bs-target="#authModal"> Begin Your Journey </a>
+                @auth
+                    <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-4 px-4 py-2 text-white" href="{{ route('home') }}" role="button" aria-label="Masuk ke Dashboard"> Begin Your Journey </a>
+                @else
+                    <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-4 px-4 py-2 text-white" href="#" role="button" aria-label="Mulai perjalanan - Begin Your Journey" data-bs-toggle="modal" data-bs-target="#authModal"> Begin Your Journey </a>
+                @endauth
             </div>
             {{-- sisi kanan --}}
             <div class="col-lg-6 text-lg-end text-center pe-lg-5 mt-4 mt-lg-0 d-flex align-items-end justify-content-center justify-content-lg-end">
@@ -140,6 +144,22 @@
 </section>
 
 {{-- article section --}}
+<section id="landing-article" class="py-5 position-relative">
+    <div class="container-xl px-lg-5">
+        <div class="mb-4">
+            <h2 class="header-artikel display-5 fw-bold fst-italic text-uppercase mb-1">Mental Health Article</h2>
+            <p class="lead" style="max-width: 600px; font-size: 1rem; color: #1F3483;">
+                Pelajari berbagai topik seputar kesehatan mental melalui artikel yang informatif, mudah dipahami, dan relevan untuk kehidupan sehari-hari
+            </p>
+        </div>
+
+        @include('review.components.artikel', ['showHeader' => false])
+
+        <a href="https://news.google.com/search?q=Kesehatan%20Mental&hl=id&gl=ID&ceid=ID%3Aid" class="more-articles-link d-inline-flex align-items-center mt-3 text-decoration-none" style="color: #4255d9; font-size: 1.1rem;">
+            More articles <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>
 
 
 {{-- motivate section --}}
@@ -256,9 +276,4 @@
         </div>
     </div>
 </section>
-
-
-
-
-
 @endsection

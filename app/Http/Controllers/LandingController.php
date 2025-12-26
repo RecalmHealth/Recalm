@@ -9,6 +9,10 @@ class LandingController extends Controller
 {
     public function index()
     {
+        // Reuse ArtikelController to fetch articles
+        $artikelController = new ArtikelController();
+        $articles = $artikelController->getArticles();
+
         $motivations = [
             "“Ingat, kamu tetap hebat meski hari ini terasa berat.”",
             "“Yuk, tarik napas dulu. Semua bakal baik-baik aja.”",
@@ -17,36 +21,38 @@ class LandingController extends Controller
             "“Kamu tetap keren karena sudah sampai di sini.”",
             "“Kamu nggak sendirian. Ada Recalm buat nemenin kamu.”"
         ];
+
         $teamMembers = [
             [
                 'name' => 'Andana Aprilio W',
                 'role' => 'UI/UX Designer',
                 'moto' => '“If everything is confusing, at least we’re confused together.”',
                 'image' => asset('images/timdev/pio.png'), // Replace with actual images later
-                'social_link' => 'https://www.linkedin.com/in/andanaaprilio/'
+                'social_link' => '#'
             ],
             [
                 'name' => 'Daffa Yusuf M',
                 'role' => 'Frontend Developer',
                 'moto' => '“If you have insomnia, just sleep.”',
                 'image' => asset('images/timdev/daffa.png'),
-                'social_link' => 'https://www.linkedin.com/in/daffa-yusuf-mahendra/'
+                'social_link' => '#'
             ],
             [
                 'name' => 'Aditia Ariq R',
                 'role' => 'Project Manager',
                 'moto' => '“If today feels wrong, tomorrow might too.”',
                 'image' => asset('images/timdev/ariq.png'),
-                'social_link' => 'https://www.linkedin.com/in/aditiaariqriskullah/'
+                'social_link' => '#'
             ],
             [
                 'name' => 'M.Reyhandhani',
                 'role' => 'Backend Developer',
-                'moto' => '“If you’re tired, yeah… me too”',
+                'moto' => '“If you have insomnia, just sleep.”',
                 'image' => asset('images/timdev/dhani.png'),
-                'social_link' => 'https://github.com/Reyhandhani'
+                'social_link' => '#'
             ]
         ];
-        return view('review.pages.landing-page', compact( 'motivations', 'teamMembers'));
+
+        return view('review.pages.landing-page', compact('articles', 'motivations', 'teamMembers'));
     }
 }

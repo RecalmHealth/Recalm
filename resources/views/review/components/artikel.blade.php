@@ -1,5 +1,6 @@
 <section class="artikel-component my-5">
   <div class="container-fluid px-0">
+    @if($showHeader ?? true)
     <div class="d-flex justify-content-between align-items-center mb-4 article-custom-padding">
       <h2 class="artikel-header mb-0">Artikel Kesehatan Mental</h2>
       <div class="carousel-nav d-none d-md-flex gap-2">
@@ -15,8 +16,9 @@
         </button>
       </div>
     </div>
+    @endif
     {{-- Desktop layout--}}
-    <div id="artikelCarousel" class="carousel slide d-none d-md-block article-custom-padding" data-bs-ride="false">
+    <div id="artikelCarousel" class="carousel slide d-none d-md-block article-custom-padding" data-bs-ride="carousel" data-bs-interval="3000">
       <div class="carousel-inner">
         @php
           $chunkedArticles = array_chunk($articles, 4);
@@ -193,7 +195,7 @@
     background: #ffffff;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 8px rgba(0,0,0,0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -346,5 +348,12 @@
     .artikel-scroll-item .artikel-image-wrapper {
       height: 140px;
     }
+  }
+  /* Fix shadow cutoff */
+  .artikel-component .carousel-inner {
+    padding: 20px 4px 50px 4px;
+    margin-right: -4px;
+    margin-left: -4px;
+    width: calc(100% + 8px);
   }
 </style>
