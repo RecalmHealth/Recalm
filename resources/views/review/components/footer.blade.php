@@ -6,6 +6,14 @@
                  Begin Your Journey With <span style="color: #3559DF;">RECALM</span>
              </h1>
              <!-- Button "Start Now" matched with Landing Page Header -->
+             @auth
+             <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-2 fs-lg-2 px-4 px-lg-5 py-2 py-lg-1 text-white mt-2"
+                href="{{ route('home') }}"
+                role="button"
+                aria-label="Masuk ke Dashboard">
+                Dashboard
+             </a>
+             @else
              <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-2 fs-lg-2 px-4 px-lg-5 py-2 py-lg-1 text-white mt-2"
                 href="#"
                 role="button"
@@ -14,6 +22,7 @@
                 data-bs-target="#authModal">
                 Start Now
              </a>
+             @endauth
         </div>
     </div>
 
