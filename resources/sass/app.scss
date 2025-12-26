@@ -668,3 +668,15 @@ padding-right: 0.25em;
 #teamCarousel .carousel-inner {
     padding: 30px 10px 50px 10px;
 }
+
+.header-artikel {
+    background: linear-gradient(90deg, #1D307A 0%, #2945AD 48%, #5578FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-right: 0.25em;
+}
+
+#landing-article .article-custom-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
