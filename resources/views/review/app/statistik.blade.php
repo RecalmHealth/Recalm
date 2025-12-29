@@ -34,7 +34,6 @@
                                 </form>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-12">
                                 <div style="height: 350px; width: 100%;">
@@ -46,12 +45,48 @@
                 </div>
             </div>
         </div>
-        {{-- Insight & Layout Placeholder --}}
         <div class="row g-4">
+            {{-- Mood List (Left Column) Ditambahkan --}}
             <div class="col-md-6">
-                {{-- Kiri Kosong dulu --}}
+                <!-- Fixed height for exactly 3 items (~300px + padding) -->
+                <div style="height: 320px; overflow-y: auto; padding-right: 5px;">
+                    @forelse($historyNotes as $note)
+                        <div class="card border-0 shadow-sm mb-3" style="border-radius: 12px;">
+                            <div class="card-body p-3 d-flex align-items-center gap-3">
+                                <div style="width: 50px; height: 50px;">
+                                    {{-- Dynamic Image Icon based on Mood --}}
+                                    @if ($note->Mood == 'Senang')
+                                        <img src="{{ asset('images/emots/senang.png') }}" width="100%" height="100%"
+                                            alt="Senang">
+                                    @elseif($note->Mood == 'Marah')
+                                        <img src="{{ asset('images/emots/marah.png') }}" width="100%" height="100%"
+                                            alt="Marah">
+                                    @else
+                                        <img src="{{ asset('images/emots/sedih.png') }}" width="100%" height="100%"
+                                            alt="Sedih">
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <h6 class="fw-bold m-0" style="color: #4361EE;">{{ $note->Mood }}</h6>
+                                        <small class="text-muted"
+                                            style="font-size: 0.7rem;">{{ $note->created_at->format('d F Y') }}</small>
+                                    </div>
+                                    <p class="text-secondary small m-0 text-truncate"
+                                        style="font-size: 0.75rem; line-height: 1.3; max-width: 250px;">
+                                        {{ Str::limit($note->Note, 60) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 text-muted">
+                            <p>Belum ada riwayat mood.</p>
+                        </div>
+                    @endforelse
+                </div>
             </div>
-            {{-- Insight Card (Kanan) Ditambahkan --}}
+            {{-- Insight Card (Right Column) --}}
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm" style="border-radius: 15px; height: 320px;">
                     <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center text-center">
@@ -69,7 +104,7 @@
     </div>
 @endsection
 @section('scripts')
-    {{-- Scripts sama persis seperti Backlog 3 --}}
+    {{-- JS sama seperti Backlog 4 --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function downloadPdf() {
@@ -81,9 +116,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('moodChart').getContext('2d');
             const currentFilter = '{{ $filter }}';
-
             const labels = [''].concat(@json($labels));
-
             let activeLabelOffset = -20;
             if (currentFilter === 'month') activeLabelOffset = -55;
             else if (currentFilter === 'week') activeLabelOffset = -25;
