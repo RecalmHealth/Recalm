@@ -19,6 +19,15 @@ Per - {{ $filter == 'year' ? 'tahun' : ($filter == 'month' ? 'bulan' : 'minggu')
 <li><a class="dropdown-item" href="?filter=year">Per - tahun</a></li>
 </ul>
 </div>
+{{-- Tombol Download Ditambahkan --}}
+<button onclick="downloadPdf()" class="btn btn-outline-secondary rounded-circle" style="width: 40px; height: 40px; border-color: #6c757d;">
+<i class="bi bi-download"></i>
+</button>
+<form id="downloadPdfForm" action="{{ route('statistik.download') }}" method="POST" target="_blank" style="display: none;">
+@csrf
+<input type="hidden" name="filter" value="{{ $filter }}">
+<input type="hidden" name="chart_image" id="chartImageInput">
+</form>
 </div>
 </div>
 <div class="row">
@@ -37,18 +46,21 @@ Per - {{ $filter == 'year' ? 'tahun' : ($filter == 'month' ? 'bulan' : 'minggu')
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Fungsi JS Download Ditambahkan
+function downloadPdf() {
+const canvas = document.getElementById('moodChart');
+const chartImage = canvas.toDataURL('image/png');
+document.getElementById('chartImageInput').value = chartImage;
+document.getElementById('downloadPdfForm').submit();
+}
 document.addEventListener('DOMContentLoaded', function() {
 const ctx = document.getElementById('moodChart').getContext('2d');
 const currentFilter = '{{ $filter }}';
 const labels = [''].concat(@json($labels)); 
 let activeLabelOffset = -20;
-if (currentFilter === 'month') {
-activeLabelOffset = -55;
-} else if (currentFilter === 'week') {
-activeLabelOffset = -25;
-} else if (currentFilter === 'year') {
-activeLabelOffset = -10;
-}
+if (currentFilter === 'month') activeLabelOffset = -55;
+else if (currentFilter === 'week') activeLabelOffset = -25;
+else if (currentFilter === 'year') activeLabelOffset = -10;
 const yAxisDecorationPlugin = {
 id: 'yAxisDecoration',
 afterDraw: (chart) => {

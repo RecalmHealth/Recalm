@@ -9,6 +9,23 @@ public function index(Request $request)
 {
 $filter = $request->query('filter', 'month');
 $userId = auth()->id();
+$data = $this->getMoodData($filter, $userId);
+return view('review.app.statistik', $data);
+}
+public function downloadPdf(Request $request)
+{
+ini_set('memory_limit', '256M');
+$filter = $request->input('filter', 'month');
+$chartImage = $request->input('chart_image'); // Base64
+$userId = auth()->id();
+$data = $this->getMoodData($filter, $userId);
+// Pass 'chartImage' specifically
+$pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('review.app.statistik_pdf', $data + ['chartImage' => $chartImage]);
+$pdf->setPaper('A4', 'portrait');
+return $pdf->download('Recalm_Statistic_' . now()->format('Ymd_His') . '.pdf');
+}
+private function getMoodData($filter, $userId)
+{
 $query = Note::where('user_id', $userId);
 $labels = [];
 $senangData = [];
@@ -59,8 +76,19 @@ elseif ($note->Mood == 'Marah') $marahData[$dayIndex]++;
 elseif ($note->Mood == 'Sedih') $sedihData[$dayIndex]++;
 }
 }
-return view('review.app.statistik', compact(
-'labels', 'senangData', 'marahData', 'sedihData', 'filter'
-));
+// Hitung total untuk PDF
+$totalSenang = $notes->where('Mood', 'Senang')->count();
+$totalMarah = $notes->where('Mood', 'Marah')->count();
+$totalSedih = $notes->where('Mood', 'Sedih')->count();
+// Placeholder Insight (belum ada di backlog ini)
+$insightTitle = '-';
+$insightDesc = '-';
+$insightColor = '#6c757d'; 
+$insightIcon = '';
+return compact(
+'labels', 'senangData', 'marahData', 'sedihData', 'filter',
+'insightTitle', 'insightDesc', 'insightColor', 'insightIcon',
+'totalSenang', 'totalMarah', 'totalSedih'
+);
 }
 }
