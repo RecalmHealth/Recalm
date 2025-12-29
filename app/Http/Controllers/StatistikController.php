@@ -109,6 +109,12 @@ class StatistikController extends Controller
                 $insightIcon = 'bi-cloud-rain-fill';
             }
         }
+
+        $historyNotes = Note::where('user_id', $userId)
+            ->whereBetween('created_at', [$start, $end])
+            ->latest()
+            ->get();
+
         return compact(
             'labels',
             'senangData',
@@ -121,7 +127,8 @@ class StatistikController extends Controller
             'insightIcon',
             'totalSenang',
             'totalMarah',
-            'totalSedih'
+            'totalSedih',
+            'historyNotes'
         );
     }
 }
