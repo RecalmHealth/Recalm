@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="row g-4">
-            {{-- Mood List (Left Column) Ditambahkan --}}
+            {{-- Mood List (Left Column) --}}
             <div class="col-md-6">
                 <!-- Fixed height for exactly 3 items (~300px + padding) -->
                 <div style="height: 320px; overflow-y: auto; padding-right: 5px;">
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <h6 class="fw-bold m-0" style="color: #4361EE;">{{ $note->Mood }}</h6>
+                                        <h6 class="fw-bold m-0" style="color: {{ $note->Mood == 'Senang' ? '#1E4F91' : ($note->Mood == 'Marah' ? '#E69500' : '#D32F2F') }};">{{ $note->Mood }}</h6>
                                         <small class="text-muted"
                                             style="font-size: 0.7rem;">{{ $note->created_at->format('d F Y') }}</small>
                                     </div>
@@ -86,6 +86,7 @@
                     @endforelse
                 </div>
             </div>
+
             {{-- Insight Card (Right Column) --}}
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm" style="border-radius: 15px; height: 320px;">
@@ -104,7 +105,6 @@
     </div>
 @endsection
 @section('scripts')
-    {{-- JS sama seperti Backlog 4 --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function downloadPdf() {
@@ -116,11 +116,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('moodChart').getContext('2d');
             const currentFilter = '{{ $filter }}';
-            const labels = [''].concat(@json($labels));
-            let activeLabelOffset = -20;
-            if (currentFilter === 'month') activeLabelOffset = -55;
-            else if (currentFilter === 'week') activeLabelOffset = -25;
-            else if (currentFilter === 'year') activeLabelOffset = -10;
+            // Use authentic labels and data
+            const labels = @json($labels);
+            const senangRaw = @json($senangData);
+            const marahRaw = @json($marahData);
+            const sedihRaw = @json($sedihData);
+            
+            // Y-Axis Decoration (Bullets)
             const yAxisDecorationPlugin = {
                 id: 'yAxisDecoration',
                 afterDraw: (chart) => {
@@ -128,20 +130,14 @@
                     const yAxis = chart.scales.y;
                     const xAxis = chart.scales.x;
                     const dotRadius = 8;
-                    const dotX = xAxis.getPixelForTick(0);
-                    const dots = [{
-                            value: 25,
-                            color: '#1E4F91'
-                        },
-                        {
-                            value: 15,
-                            color: '#E69500'
-                        },
-                        {
-                            value: 5,
-                            color: '#D32F2F'
-                        }
+                    const dotX = chart.chartArea.left - 15; 
+
+                    const dots = [
+                        { value: 25, color: '#1E4F91' },
+                        { value: 15, color: '#E69500' },
+                        { value: 5, color: '#D32F2F' }
                     ];
+
                     dots.forEach(dot => {
                         const y = yAxis.getPixelForValue(dot.value);
                         ctx.beginPath();
@@ -152,42 +148,42 @@
                     });
                 }
             };
+
             const data = {
                 labels: labels,
                 datasets: [{
                         label: 'Senang',
-                        data: [25].concat(@json($senangData).map(c => Math.min(25 + (c * 4),
-                            30))),
+                        data: senangRaw.map(c => Math.min(25 + (c * 4), 30)),
                         borderColor: '#1E4F91',
                         backgroundColor: '#1E4F91',
                         borderWidth: 4,
                         tension: 0,
                         pointRadius: 0,
-                        pointHoverRadius: 5
+                        pointHoverRadius: 8
                     },
                     {
                         label: 'Marah',
-                        data: [15].concat(@json($marahData).map(c => Math.min(15 + (c * 4),
-                            20))),
+                        data: marahRaw.map(c => Math.min(15 + (c * 4), 20)),
                         borderColor: '#E69500',
                         backgroundColor: '#E69500',
                         borderWidth: 4,
                         tension: 0,
                         pointRadius: 0,
-                        pointHoverRadius: 5
+                        pointHoverRadius: 8
                     },
                     {
                         label: 'Sedih',
-                        data: [5].concat(@json($sedihData).map(c => Math.min(5 + (c * 4), 10))),
+                        data: sedihRaw.map(c => Math.min(5 + (c * 4), 10)),
                         borderColor: '#D32F2F',
                         backgroundColor: '#D32F2F',
                         borderWidth: 4,
                         tension: 0,
                         pointRadius: 0,
-                        pointHoverRadius: 5
+                        pointHoverRadius: 8
                     }
                 ]
             };
+
             const config = {
                 type: 'line',
                 data: data,
@@ -195,24 +191,60 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'nearest',
+                        intersect: false,
+                        axis: 'x'
+                    },
                     layout: {
                         padding: {
-                            left: 5,
+                            left: 30,
                             right: 20,
-                            top: 10,
+                            top: 20,
                             bottom: 10
                         }
                     },
                     plugins: {
-                        legend: {
-                            display: false
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#fff',
+                            titleColor: '#000',
+                            bodyColor: '#000',
+                            bodyFont: {
+                                family: "'Poppins', sans-serif",
+                                size: 13
+                            },
+                            titleFont: {
+                                family: "'Poppins', sans-serif",
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            borderColor: '#e0e0e0',
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6, // Jarak antara kotak warna dan teks
+                            bodySpacing: 8, // Jarak antar baris teks
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    let rawValue = 0;
+                                    // Map visual data index back to raw counts
+                                    if (context.datasetIndex === 0) rawValue = senangRaw[context.dataIndex];
+                                    if (context.datasetIndex === 1) rawValue = marahRaw[context.dataIndex];
+                                    if (context.datasetIndex === 2) rawValue = sedihRaw[context.dataIndex];
+                                    
+                                    return label + rawValue + ' Catatan';
+                                }
+                            }
                         }
                     },
                     scales: {
                         x: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             ticks: {
                                 font: {
                                     size: 14,
@@ -220,30 +252,22 @@
                                     family: "'Poppins', sans-serif"
                                 },
                                 color: '#1E4F91',
-                                padding: 15,
-                                labelOffset: activeLabelOffset
+                                padding: 10
                             },
-                            border: {
-                                display: false
-                            },
-                            offset: false
+                            border: { display: false },
+                            offset: true
                         },
                         y: {
                             display: true,
                             min: 0,
                             max: 40,
-                            ticks: {
-                                display: false
-                            },
+                            ticks: { display: false },
                             grid: {
-                                color: (ctx) => [0, 10, 20, 30].includes(ctx.tick.value) ? '#e0e0e0' :
-                                    'transparent',
+                                color: (ctx) => [0, 10, 20, 30].includes(ctx.tick.value) ? '#e0e0e0' : 'transparent',
                                 drawBorder: false,
                                 drawTicks: false
                             },
-                            border: {
-                                display: false
-                            }
+                            border: { display: false }
                         }
                     }
                 }

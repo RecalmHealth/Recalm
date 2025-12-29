@@ -10,32 +10,26 @@ use Illuminate\Support\Facades\Log;
 class ArtikelController extends Controller
 {
     /**
-     * URL API NewsData.io
-     * Mengambil artikel kesehatan mental di Indonesia
+     * Fetch mental health articles from NewsData.io API.
+     * Caches results for 6 hours.
      */
-    private $newsApiUrl = 'https://newsdata.io/api/1/latest?apikey=pub_808ba9013a304b64a1eeea0ddc3c31c2&q=Kesehatan%20Mental&country=id&language=id&category=health&timezone=Asia/Jakarta';
-
     public function getArticles()
     {
-        // Cache selama 6 jam (21600 detik) untuk menghemat kuota API
         return Cache::remember('newsdata_mental_health_v8', 21600, function () {
-            Log::info('Memulai pengambilan artikel dari NewsData.io...');
+            Log::info('Fetching articles from NewsData.io...');
 
             $articles = $this->fetchFromAPI();
 
-            // Logika baru: Pastikan total 8 artikel
+            // Ensure exactly 8 articles by filling with fallbacks if needed
             $needed = 8 - count($articles);
 
             if ($needed > 0) {
-                Log::info("API hanya returning " . count($articles) . ", mengambil $needed fallback.");
+                Log::info("API returned " . count($articles) . ", fetching $needed fallbacks.");
                 $fallbacks = $this->getFallbackArticles();
-
-                // Ambil fallback secukupnya untuk digabung
                 $extras = array_slice($fallbacks, 0, $needed);
                 $articles = array_merge($articles, $extras);
             }
 
-            // Pastikan tepat 8
             return array_slice($articles, 0, 8);
         });
     }

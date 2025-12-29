@@ -10,40 +10,37 @@ use App\Models\User;
 
 class UserProfileController extends Controller
 {
+    /**
+     * Update user profile information and photo.
+     */
     public function update(Request $request)
     {
         $user = Auth::user();
 
-
-        // Validasi input
+        // 1. Validate Input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'photo' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
 
-        // Cek apakah ada perubahan nama atau email
+        // 2. Check for changes
         if ($user->name === $request->name && $user->email === $request->email && !$request->hasFile('photo')) {
             return redirect()->back()->withErrors(['message' => 'Tidak ada perubahan pada data Anda.']);
         }
 
-        // Simpan nama dan email
+        // 3. Update Name & Email
         $user->name = $request->name;
         $user->email = $request->email;
 
-        // Update foto jika ada file baru
+        // 4. Update Photo if provided
         if ($request->hasFile('photo')) {
-            // Hapus file lama jika ada
             if ($user->photo && Storage::exists('public/' . $user->photo)) {
                 Storage::delete('public/' . $user->photo);
             }
-
-            // Simpan file baru
-            $path = $request->file('photo')->store('profile_photos', 'public');
-            $user->photo = $path;
+            $user->photo = $request->file('photo')->store('profile_photos', 'public');
         }
 
-        // Simpan perubahan
         $user->save();
 
         return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
