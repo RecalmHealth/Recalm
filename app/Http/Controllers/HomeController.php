@@ -9,26 +9,25 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
-
+    /**
+     * Show the application dashboard.
+     * Displays articles, latest note, mood calendar, and streak count.
+     */
     public function index()
     {
         $userId = auth()->id();
 
-        // Ambil artikel kesehatan mental
+        // 1. Fetch Articles
         $artikelController = new ArtikelController();
         $articles = $artikelController->getArticles();
 
-        // Ambil catatan terbaru hari ini untuk mood component
+        // 2. Fetch Latest Note
         $latestNote = notes::where('user_id', $userId)
             ->whereDate('created_at', Carbon::today())
             ->orderBy('created_at', 'desc')
             ->first();
 
-        // Ambil semua catatan user untuk kalender
+        // 3. Fetch All Notes (Calendar)
         $allNotes = notes::where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get()
@@ -36,20 +35,18 @@ class HomeController extends Controller
                 return Carbon::parse($note->created_at)->format('Y-m-d');
             });
 
-        // Hitung streak (hari berturut-turut menulis catatan)
+        // 4. Streak
         $streak = $this->calculateStreak($userId);
 
-        return view('review.pages.home', compact(
-            'articles',
-            'latestNote',
-            'allNotes',
-            'streak'
-        ));
+        return view('review.pages.home', compact('articles', 'latestNote', 'allNotes', 'streak'));
     }
 
+    /**
+     * Calculate user streak (consecutive days of logging notes).
+     */
     private function calculateStreak($userId)
     {
-        // Ambil tanggal unik dari catatan user, diurutkan descending
+        // Get unique dates from notes
         $noteDates = notes::where('user_id', $userId)
             ->selectRaw('DATE(created_at) as note_date')
             ->distinct()
@@ -65,17 +62,17 @@ class HomeController extends Controller
         $today = Carbon::today()->format('Y-m-d');
         $yesterday = Carbon::yesterday()->format('Y-m-d');
 
-        // Cek apakah ada catatan hari ini atau kemarin (untuk streak yang masih aktif)
+        // Check if streak is active (has note today or yesterday)
         if ($noteDates[0] !== $today && $noteDates[0] !== $yesterday) {
             return 0;
         }
 
-        // Hitung streak mundur dari hari ini/kemarin
+        // Count backwards
         for ($i = 1; $i < count($noteDates); $i++) {
             $currentDate = Carbon::parse($noteDates[$i]);
             $previousDate = Carbon::parse($noteDates[$i - 1]);
 
-            // Cek apakah tanggal berurutan (selisih 1 hari)
+            // Check if consecutive day
             if ($previousDate->diffInDays($currentDate) === 1) {
                 $streak++;
             } else {
@@ -86,9 +83,16 @@ class HomeController extends Controller
         return $streak;
     }
 
+    /**
+     * Show the Notes page.
+     * Displays list of user notes sorted by date.
+     */
     public function notes()
     {
-        $notes = \App\Models\notes::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get();
+        $notes = \App\Models\notes::where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
         return view('review.app.notes', compact('notes'));
     }
 }

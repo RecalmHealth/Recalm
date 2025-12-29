@@ -22,6 +22,12 @@
             height: 100vh;
             overflow-y: scroll; /* Force scrollbar */
             padding: 0;
+            animation: fadeIn 0.4s ease-in-out; 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -41,7 +47,6 @@
         </div>
     </div>
 
-    {{-- @vite('resources/js/app.js') --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

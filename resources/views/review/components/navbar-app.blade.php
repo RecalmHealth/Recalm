@@ -13,10 +13,47 @@
     {{-- RIGHT: notif + profile (desktop) or notif + hamburger (mobile) --}}
     <div class="d-flex align-items-center gap-3">
 
-      {{-- Notification: selalu tampil --}}
-      <a href="#" class="notif-btn" aria-label="Notifications">
-        <img src="{{ asset('images/icon/notif.png') }}" alt="notifIcon" width="26" height="26">
-      </a>
+      {{-- Notification Dropdown --}}
+      <div class="dropdown">
+        <a href="#" class="notif-btn position-relative" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{ asset('images/icon/notif.png') }}" alt="notifIcon" width="26" height="26">
+          @if(isset($notificationArticles) && count($notificationArticles) > 0)
+            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+              <span class="visually-hidden">New alerts</span>
+            </span>
+          @endif
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="notifDropdown" style="width: 320px; border-radius: 15px; padding: 0; overflow: hidden;">
+            <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background: linear-gradient(100deg, #4963c6 0, #4e6ee6 100%);">
+                <h6 class="mb-0 fw-bold">Update Artikel</h6>
+                <span class="badge bg-white text-primary rounded-pill">{{ isset($notificationArticles) ? count($notificationArticles) : 0 }} Baru</span>
+            </div>
+            <div style="max-height: 300px; overflow-y: auto;">
+                @if(isset($notificationArticles) && count($notificationArticles) > 0)
+                    @foreach($notificationArticles as $article)
+                        <li>
+                            <a class="dropdown-item p-3 border-bottom d-flex align-items-start gap-3" href="{{ $article['url'] }}" target="_blank">
+                                <img src="{{ $article['image'] }}" class="rounded" width="50" height="50" style="object-fit: cover;">
+                                <div>
+                                    <p class="mb-1 fw-bold text-wrap" style="font-size: 0.9rem; line-height: 1.3;">{{ Str::limit($article['title'], 40) }}</p>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ $article['date'] }}</small>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                @else
+                    <li class="p-4 text-center text-muted">
+                        <small>Belum ada update artikel terbaru.</small>
+                    </li>
+                @endif
+            </div>
+            <div class="p-2 text-center bg-light d-flex justify-content-center gap-3">
+                <a href="#" onclick="markAsRead(event)" class="text-decoration-none small fw-bold text-primary">Tandai sudah dibaca</a>
+                <!-- <span class="text-muted">|</span>
+                <a href="#" onclick="resetSimulation(event)" class="text-decoration-none small fw-bold text-danger">Reset (Simulasi)</a> -->
+            </div>
+        </ul>
+      </div>
 
       {{-- Avatar (desktop only) --}}
       <div class="d-none d-md-block">
@@ -167,4 +204,47 @@
     filter: brightness(0) saturate(100%) invert(23%) sepia(65%) saturate(1400%) hue-rotate(210deg) brightness(90%) contrast(95%);
 }
 }
+}
+
+.notif-btn { transition: transform 0.2s; }
+.notif-btn:active { transform: scale(0.95); }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the latest article ID from Blade
+        const latestId = "{{ isset($notificationArticles) && count($notificationArticles) > 0 ? $notificationArticles[0]['id'] : '' }}";
+        const badge = document.getElementById('notifBadge');
+        
+        // Check local storage
+        const readId = localStorage.getItem('lastReadArticleId');
+        
+        // Logic: If we have a latest ID, and it matches what we read, HIDE the badge.
+        // If it DOESN'T match (meaning new article) OR we haven't read anything, SHOW it (which is default).
+        if (latestId && readId === latestId) {
+            if(badge) badge.style.display = 'none';
+        }
+    });
+
+    function markAsRead(e) {
+        e.preventDefault();
+        const badge = document.getElementById('notifBadge');
+        // Get the latest ID again (or stored in variable)
+        const latestId = "{{ isset($notificationArticles) && count($notificationArticles) > 0 ? $notificationArticles[0]['id'] : '' }}";
+        
+        if(badge) {
+            badge.style.display = 'none';
+            // Save to local storage
+            if(latestId) {
+                localStorage.setItem('lastReadArticleId', latestId);
+            }
+        }
+    }
+
+    // Temporary Helper for User Testing
+    function resetSimulation(e) {
+        e.preventDefault();
+        localStorage.removeItem('lastReadArticleId');
+        location.reload(); // Reload page to show the red dot again
+    }
+</script>
