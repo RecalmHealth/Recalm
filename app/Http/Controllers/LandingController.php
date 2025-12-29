@@ -28,28 +28,28 @@ class LandingController extends Controller
                 'role' => 'UI/UX Designer',
                 'moto' => '“If everything is confusing, at least we’re confused together.”',
                 'image' => asset('images/timdev/pio.png'), // Replace with actual images later
-                'social_link' => '#'
+                'social_link' => 'https://www.linkedin.com/in/andanaaprilio/'
             ],
             [
                 'name' => 'Daffa Yusuf M',
                 'role' => 'Frontend Developer',
                 'moto' => '“If you have insomnia, just sleep.”',
                 'image' => asset('images/timdev/daffa.png'),
-                'social_link' => '#'
+                'social_link' => 'https://www.linkedin.com/in/daffa-yusuf-mahendra/'
             ],
             [
                 'name' => 'Aditia Ariq R',
                 'role' => 'Project Manager',
                 'moto' => '“If today feels wrong, tomorrow might too.”',
                 'image' => asset('images/timdev/ariq.png'),
-                'social_link' => '#'
+                'social_link' => 'https://www.linkedin.com/in/aditiaariqriskullah/'
             ],
             [
                 'name' => 'M.Reyhandhani',
                 'role' => 'Backend Developer',
-                'moto' => '“If you have insomnia, just sleep.”',
+                'moto' => '“If you’re tired, yeah… me too”',
                 'image' => asset('images/timdev/dhani.png'),
-                'social_link' => '#'
+                'social_link' => 'https://linktr.ee/kazam'
             ]
         ];
 
