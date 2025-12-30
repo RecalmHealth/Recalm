@@ -13,6 +13,8 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ArtikelController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,3 +49,4 @@ Route::post('/statistik/download', [StatistikController::class, 'downloadPdf'])-
 Route::get('/chat', [ChatController::class, 'index'])->name('chat');
 Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 Route::get('/review', [ReviewController::class, 'index'])->name('review.index')->middleware('auth');
+Route::get('/articles/refresh', [ArtikelController::class, 'refreshCache']);

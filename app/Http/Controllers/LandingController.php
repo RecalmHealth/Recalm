@@ -26,28 +26,28 @@ class LandingController extends Controller
             [
                 'name' => 'Andana Aprilio W',
                 'role' => 'UI/UX Designer',
-                'moto' => '“If everything is confusing, at least we’re confused together.”',
-                'image' => asset('images/timdev/pio.png'), // Replace with actual images later
+                'moto' => '“Tidak apa-apa untuk beristirahat, pikiranmu juga butuh waktu.”',
+                'image' => asset('images/timdev/pio.png'),
                 'social_link' => 'https://www.linkedin.com/in/andanaaprilio/'
             ],
             [
                 'name' => 'Daffa Yusuf M',
                 'role' => 'Frontend Developer',
-                'moto' => '“If you have insomnia, just sleep.”',
+                'moto' => '“Hari ini mungkin sulit, tapi esok selalu memberi kesempatan baru.”',
                 'image' => asset('images/timdev/daffa.png'),
                 'social_link' => 'https://www.linkedin.com/in/daffa-yusuf-mahendra/'
             ],
             [
                 'name' => 'Aditia Ariq R',
                 'role' => 'Project Manager',
-                'moto' => '“If today feels wrong, tomorrow might too.”',
+                'moto' => '“Mengakui perasaanmu adalah langkah pertama menuju ketenangan.”',
                 'image' => asset('images/timdev/ariq.png'),
                 'social_link' => 'https://www.linkedin.com/in/aditiaariqriskullah/'
             ],
             [
                 'name' => 'M.Reyhandhani',
                 'role' => 'Backend Developer',
-                'moto' => '“If you’re tired, yeah… me too”',
+                'moto' => '“Senyum sekecil apapun hari ini, berarti kamu menang atas kesulitanmu.”',
                 'image' => asset('images/timdev/dhani.png'),
                 'social_link' => 'https://linktr.ee/kazam'
             ]

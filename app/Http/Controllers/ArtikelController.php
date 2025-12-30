@@ -23,7 +23,6 @@ class ArtikelController extends Controller
 
             $articles = $this->fetchFromAPI();
 
-            // Logika baru: Pastikan total 8 artikel
             $needed = 8 - count($articles);
 
             if ($needed > 0) {
@@ -65,7 +64,6 @@ class ArtikelController extends Controller
                     $mappedArticles[] = [
                         'id' => $item['article_id'] ?? md5($item['link']),
                         'title' => $item['title'],
-                        // Batasi deskripsi dan bersihkan tag HTML jika ada
                         'description' => \Illuminate\Support\Str::limit(strip_tags($item['description']), 120),
                         'image' => $image,
                         'date' => $this->formatDateString($item['pubDate'] ?? now()),
@@ -156,7 +154,6 @@ class ArtikelController extends Controller
         ];
 
         $articles = $base;
-        // Gandakan agar slider penuh jika perlu
         foreach($base as $item) {
             $newItem = $item;
             $newItem['id'] += 4;
