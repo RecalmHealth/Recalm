@@ -13,10 +13,47 @@
     {{-- RIGHT: notif + profile (desktop) or notif + hamburger (mobile) --}}
     <div class="d-flex align-items-center gap-3">
 
-      {{-- Notification: selalu tampil --}}
-      <a href="#" class="notif-btn" aria-label="Notifications">
-        <img src="{{ asset('images/icon/notif.png') }}" alt="notifIcon" width="26" height="26">
-      </a>
+      {{-- Notification Dropdown --}}
+      <div class="dropdown">
+        <a href="#" class="notif-btn position-relative" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{ asset('images/icon/notif.png') }}" alt="notifIcon" width="26" height="26">
+          @if(isset($notificationArticles) && count($notificationArticles) > 0)
+            <span id="notifBadge" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+              <span class="visually-hidden">New alerts</span>
+            </span>
+          @endif
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="notifDropdown" style="width: 320px; border-radius: 15px; padding: 0; overflow: hidden;">
+            <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background: linear-gradient(100deg, #4963c6 0, #4e6ee6 100%);">
+                <h6 class="mb-0 fw-bold">Update Artikel</h6>
+                <span class="badge bg-white text-primary rounded-pill">{{ isset($notificationArticles) ? count($notificationArticles) : 0 }} Baru</span>
+            </div>
+            <div style="max-height: 300px; overflow-y: auto;">
+                @if(isset($notificationArticles) && count($notificationArticles) > 0)
+                    @foreach($notificationArticles as $article)
+                        <li>
+                            <a class="dropdown-item p-3 border-bottom d-flex align-items-start gap-3" href="{{ $article['url'] }}" target="_blank">
+                                <img src="{{ $article['image'] }}" class="rounded" width="50" height="50" style="object-fit: cover;">
+                                <div>
+                                    <p class="mb-1 fw-bold text-wrap" style="font-size: 0.9rem; line-height: 1.3;">{{ Str::limit($article['title'], 40) }}</p>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ $article['date'] }}</small>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                @else
+                    <li class="p-4 text-center text-muted">
+                        <small>Belum ada update artikel terbaru.</small>
+                    </li>
+                @endif
+            </div>
+            <div class="p-2 text-center bg-light d-flex justify-content-center gap-3">
+                <a href="#" onclick="markAsRead(event)" class="text-decoration-none small fw-bold text-primary">Tandai sudah dibaca</a>
+                <!-- <span class="text-muted">|</span>
+                <a href="#" onclick="resetSimulation(event)" class="text-decoration-none small fw-bold text-danger">Reset (Simulasi)</a> -->
+            </div>
+        </ul>
+      </div>
 
       {{-- Avatar (desktop only) --}}
       <div class="d-none d-md-block">
@@ -86,7 +123,7 @@
     {{-- If guest show login/register buttons --}}
     @guest
     <div>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#authModal" data-bs-dismiss="offcanvas">Login / Register</button>
+<a href="{{ url('/') }}" class="btn btn-primary">Login / Register</a>
         <a href="{{ route('home') }}" class="btn btn-outline-secondary">Kembali ke Home</a>
       </div>
     @else
@@ -114,7 +151,7 @@
         </li>
         <li class="mb-2">
           <a href="{{ route('chat') }}" class="d-flex align-items-center gap-3 text-decoration-none text-dark p-2 rounded {{ request()->routeIs('chat') ? 'bg-primary text-white' : '' }}">
-            <img src="{{ asset('images/icon/Ai.png') }}" width="28" alt="AI Chat"> AI Chat
+            <img src="{{ asset('images/icon/AI.png') }}" width="28" alt="AI Chat"> AI Chat
           </a>
         </li>
         <li class="mb-2">
@@ -127,168 +164,7 @@
   </div>
 </div>
 
-{{-- Login / Register Modal --}}
-<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 p-4" style="border-radius: 20px;">
 
-      {{-- Modal Header (Close button & Branding) --}}
-      <div class="position-relative text-center mb-4">
-        <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
-        <h3 class="fw-bold" style="color: #4361EE;">RECALM</h3>
-        <h5 class="fw-bold mt-2" id="modalTitle">Login</h5>
-      </div>
-
-      <div class="modal-body p-0">
-
-        {{-- LOGIN FORM --}}
-        <div id="login-form-section">
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-                <div class="mb-3">
-                    <label for="login-email" class="form-label fw-bold">Email</label>
-                    <input type="email" class="form-control py-2 ps-3" id="login-email" name="email" placeholder="contoh@email.com" style="border-radius: 8px; border: 1px solid #ced4da;" required>
-                </div>
-                <div class="mb-4">
-                    <label for="login-password" class="form-label fw-bold">Password</label>
-                    <input type="password" class="form-control py-2 ps-3" id="login-password" name="password" placeholder="*******" style="border-radius: 8px; border: 1px solid #ced4da;" required>
-                </div>
-
-                <div class="d-grid mb-4">
-                    <button type="submit" class="btn btn-primary py-2 fw-bold" style="background-color: #4361EE; border-color: #4361EE; border-radius: 8px;">Login</button>
-                </div>
-
-                {{-- Divider --}}
-                <div class="d-flex align-items-center mb-4">
-                    <hr class="flex-grow-1 text-muted">
-                    <span class="mx-3 text-muted small">Or Login With</span>
-                    <hr class="flex-grow-1 text-muted">
-                </div>
-
-                {{-- Social Login --}}
-                <div class="d-flex justify-content-center mb-4">
-                    <a href="{{ route('auth.google') }}" class="btn border-0 p-0">
-                        <img src="{{ asset('images/google.png') }}" alt="Google" width="30">
-                    </a>
-                </div>
-
-                {{-- Toggle Link --}}
-                <div class="text-center">
-                    <span class="text-muted">Belum punya akun? </span>
-                    <a href="#" class="text-decoration-none fw-bold" onclick="toggleAuthMode('register'); return false;" style="color: #4361EE;">Daftar Sekarang</a>
-                </div>
-            </form>
-        </div>
-
-        {{-- REGISTER FORM (Hidden by default) --}}
-        <div id="register-form-section" style="display: none;">
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
-                <div class="mb-3">
-                    <label for="register-name" class="form-label fw-bold">Full Name</label>
-                    <input type="text" class="form-control py-2 ps-3 @error('name') is-invalid @enderror" id="register-name" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" style="border-radius: 8px; border: 1px solid #ced4da;" required>
-                    @error('name')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="register-email" class="form-label fw-bold">Email</label>
-                    <input type="email" class="form-control py-2 ps-3 @error('email') is-invalid @enderror" id="register-email" name="email" placeholder="contoh@email.com" value="{{ old('email') }}" style="border-radius: 8px; border: 1px solid #ced4da;" required>
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="register-password" class="form-label fw-bold">Password</label>
-                    <input type="password" class="form-control py-2 ps-3 @error('password') is-invalid @enderror" id="register-password" name="password" placeholder="*******" style="border-radius: 8px; border: 1px solid #ced4da;" required>
-                    @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="d-grid mb-4">
-                    <button type="submit" class="btn btn-primary py-2 fw-bold" style="background-color: #4361EE; border-color: #4361EE; border-radius: 8px;">Register</button>
-                </div>
-
-                 {{-- Divider --}}
-                 <div class="d-flex align-items-center mb-4">
-                    <hr class="flex-grow-1 text-muted">
-                    <span class="mx-3 text-muted small">Or Register With</span>
-                    <hr class="flex-grow-1 text-muted">
-                </div>
-
-                {{-- Social Login --}}
-                <div class="d-flex justify-content-center mb-4">
-                    <a href="{{ route('auth.google') }}" class="btn border-0 p-0">
-                        <img src="{{ asset('images/google.png') }}" alt="Google" width="30">
-                    </a>
-                </div>
-
-                {{-- Toggle Link --}}
-                <div class="text-center">
-                    <span class="text-muted">Sudah punya akun? </span>
-                    <a href="#" class="text-decoration-none fw-bold" onclick="toggleAuthMode('login'); return false;" style="color: #4361EE;">Login</a>
-                </div>
-            </form>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function toggleAuthMode(mode) {
-    const loginForm = document.getElementById('login-form-section');
-    const registerForm = document.getElementById('register-form-section');
-    const modalTitle = document.getElementById('modalTitle');
-
-    if (mode === 'register') {
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-        modalTitle.innerText = 'Register';
-    } else {
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-        modalTitle.innerText = 'Login';
-    }
-}
-
-</script>
-
-{{-- Auto-open registration modal on error --}}
-@if($errors->any() && ($errors->has('name') || old('name')))
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Check if bootstrap is available
-            if (typeof bootstrap !== 'undefined') {
-                var authModalInfo = document.getElementById('authModal');
-                if(authModalInfo) {
-                    var myModal = new bootstrap.Modal(authModalInfo);
-                    myModal.show();
-                    // Ensure global function is available or inline the logic if needed context is lost.
-                    // Since it's in a separate script tag but same page, global window scope functions work.
-                    if (typeof toggleAuthMode === 'function') {
-                        toggleAuthMode('register');
-                    } else {
-                         // Fallback inline logic if function not found
-                        document.getElementById('login-form-section').style.display = 'none';
-                        document.getElementById('register-form-section').style.display = 'block';
-                        document.getElementById('modalTitle').innerText = 'Register';
-                    }
-                }
-            } else {
-                console.error("Bootstrap is not loaded yet.");
-            }
-        });
-    </script>
-@endif
 
 {{-- minimal custom CSS for spacing / typography (let it live inside component or external file) --}}
 <style>
@@ -328,4 +204,47 @@ function toggleAuthMode(mode) {
     filter: brightness(0) saturate(100%) invert(23%) sepia(65%) saturate(1400%) hue-rotate(210deg) brightness(90%) contrast(95%);
 }
 }
+}
+
+.notif-btn { transition: transform 0.2s; }
+.notif-btn:active { transform: scale(0.95); }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the latest article ID from Blade
+        const latestId = "{{ isset($notificationArticles) && count($notificationArticles) > 0 ? $notificationArticles[0]['id'] : '' }}";
+        const badge = document.getElementById('notifBadge');
+        
+        // Check local storage
+        const readId = localStorage.getItem('lastReadArticleId');
+        
+        // Logic: If we have a latest ID, and it matches what we read, HIDE the badge.
+        // If it DOESN'T match (meaning new article) OR we haven't read anything, SHOW it (which is default).
+        if (latestId && readId === latestId) {
+            if(badge) badge.style.display = 'none';
+        }
+    });
+
+    function markAsRead(e) {
+        e.preventDefault();
+        const badge = document.getElementById('notifBadge');
+        // Get the latest ID again (or stored in variable)
+        const latestId = "{{ isset($notificationArticles) && count($notificationArticles) > 0 ? $notificationArticles[0]['id'] : '' }}";
+        
+        if(badge) {
+            badge.style.display = 'none';
+            // Save to local storage
+            if(latestId) {
+                localStorage.setItem('lastReadArticleId', latestId);
+            }
+        }
+    }
+
+    // Temporary Helper for User Testing
+    function resetSimulation(e) {
+        e.preventDefault();
+        localStorage.removeItem('lastReadArticleId');
+        location.reload(); // Reload page to show the red dot again
+    }
+</script>

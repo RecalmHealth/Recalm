@@ -1,118 +1,96 @@
 <?php
 
-
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-
 class ArtikelController extends Controller
 {
     /**
-     * Konfigurasi RSS Feeds
-     * Menggunakan Google News RSS dengan query spesifik "Kesehatan Mental"
-     * untuk mendapatkan artikel yang 100% relevan berbahasa Indonesia.
+     * URL API NewsData.io
+     * Mengambil artikel kesehatan mental di Indonesia
      */
-    private $rssFeeds = [
-        [
-            // Query: "Kesehatan Mental" OR "Psikologi" OR "Kesehatan Jiwa"
-            'url' => 'https://news.google.com/rss/search?q=kesehatan+mental+OR+psikologi+OR+kesehatan+jiwa+when:7d&hl=id-ID&gl=ID&ceid=ID:id',
-            'source' => 'Google News',
-            'category' => 'Mental Health'
-        ]
-    ];
+    private $newsApiUrl = 'https://newsdata.io/api/1/latest?apikey=pub_808ba9013a304b64a1eeea0ddc3c31c2&q=Kesehatan%20Mental&country=id&language=id&category=health&timezone=Asia/Jakarta';
+
     public function getArticles()
     {
-        return Cache::remember('indo_mental_health_articles_fixed_v2', 43200, function () {
-            Log::info('Memulai pengambilan artikel Kesehatan Mental (Google News)...');
+        // Cache selama 6 jam (21600 detik) untuk menghemat kuota API
+        return Cache::remember('newsdata_mental_health_v11', 21600, function () {
+            Log::info('Memulai pengambilan artikel dari NewsData.io...');
 
+            $articles = $this->fetchFromAPI();
 
-            $articles = $this->fetchFromRSS();
+            // Logika baru: Pastikan total 8 artikel
+            $needed = 8 - count($articles);
 
+            if ($needed > 0) {
+                Log::info("API hanya returning " . count($articles) . ", mengambil $needed fallback.");
+                $fallbacks = $this->getFallbackArticles();
 
-            if ($articles && count($articles) >= 4) {
-                Log::info('Berhasil ambil ' . count($articles) . ' artikel dari RSS');
-                return array_slice($articles, 0, 8);
+                // Ambil fallback secukupnya untuk digabung
+                $extras = array_slice($fallbacks, 0, $needed);
+                $articles = array_merge($articles, $extras);
             }
 
-
-            Log::warning('Gagal ambil RSS atau kurang dari 4, fallback ke artikel statis');
-            return $this->getFallbackArticles();
+            // Pastikan tepat 8
+            return array_slice($articles, 0, 8);
         });
     }
-    private function fetchFromRSS()
+
+    private function fetchFromAPI()
     {
-        $allArticles = [];
-        foreach ($this->rssFeeds as $feed) {
-            try {
-                Log::info('Fetching RSS: ' . $feed['url']);
+        try {
+            $response = Http::timeout(15)->get($this->newsApiUrl);
 
+            if ($response->successful()) {
+                $data = $response->json();
 
-                $response = Http::timeout(15)->get($feed['url']);
-
-
-                if (!$response->successful()) {
-                    Log::warning('Gagal fetch RSS ' . $feed['source'] . ': ' . $response->status());
-                    continue;
-                }
-                $xmlContent = $response->body();
-                $rss = simplexml_load_string($xmlContent, 'SimpleXMLElement', LIBXML_NOCDATA);
-                if ($rss === false) {
-                    continue;
+                if (!isset($data['results'])) {
+                    return [];
                 }
 
-
-                $items = $rss->channel->item;
+                $mappedArticles = [];
                 $count = 0;
 
+                foreach ($data['results'] as $item) {
+                    // Cek image_url, jika null gunakan fallback
+                    $image = $item['image_url'];
+                    if (!$image) {
+                        $image = $this->getRandomImage($count);
+                    }
 
-                foreach ($items as $item) {
-                    if ($count >= 15) break;
-
-
-                    $title = (string)$item->title;
-                    $title = preg_replace('/ - .+$/', '', $title);
-
-
-                    $link = (string)$item->link;
-                    $pubDate = (string)$item->pubDate;
-                    $descriptionRaw = (string)$item->description;
-                    $cleanDescription = $this->cleanDescription($descriptionRaw);
-                    $image = $this->getRandomImage($count);
-
-
-                    $allArticles[] = [
-                        'id' => md5($link),
-                        'title' => $title,
-                        'description' => $cleanDescription,
+                    $mappedArticles[] = [
+                        'id' => $item['article_id'] ?? md5($item['link']),
+                        'title' => $item['title'],
+                        // Batasi deskripsi dan bersihkan tag HTML jika ada
+                        'description' => \Illuminate\Support\Str::limit(strip_tags($item['description']), 120),
                         'image' => $image,
-                        'date' => $this->formatDateString($pubDate),
-                        'url' => $link,
+                        'date' => $this->formatDateString($item['pubDate'] ?? now()),
+                        'url' => $item['link'],
                         'category' => 'mental-health',
-                        'source' => (string)$item->source ?? 'News'
+                        'source' => $item['source_name'] ?? 'News',
                     ];
-
-
                     $count++;
                 }
-            } catch (\Exception $e) {
-                Log::error('RSS Error: ' . $e->getMessage());
+
+                return $mappedArticles;
+            } else {
+                Log::error('NewsData API Error: ' . $response->status() . ' - ' . $response->body());
+                return [];
             }
+
+        } catch (\Exception $e) {
+            Log::error('NewsData API Exception: ' . $e->getMessage());
+            return [];
         }
-        return $allArticles;
     }
-    private function cleanDescription($html)
-    {
-        $text = html_entity_decode($html);
-        $text = strip_tags($text);
-        $text = preg_replace('/^.*?&nbsp;/', '', $text);
-        return \Illuminate\Support\Str::limit(trim($text), 120);
-    }
+
     private function getRandomImage($index)
     {
-        // gambar lokal
+        // gambar lokal sebagai fallback
         $images = [
             asset('images/articles/nature-calm.jpg'),
             asset('images/articles/tech-mental.jpg'),
@@ -124,10 +102,8 @@ class ArtikelController extends Controller
             'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&auto=format&fit=crop&q=60'
         ];
 
-
         return $images[$index % count($images)];
     }
-
 
     private function formatDateString($dateString)
     {
@@ -138,6 +114,7 @@ class ArtikelController extends Controller
             return $this->formatDate(now());
         }
     }
+
     private function formatDate($date)
     {
         $months = [
@@ -147,6 +124,7 @@ class ArtikelController extends Controller
         ];
         return $date->day . ' ' . $months[$date->month] . ' ' . $date->year;
     }
+
     /*Fallback Articles (Static)*/
     private function getFallbackArticles()
     {
@@ -156,47 +134,52 @@ class ArtikelController extends Controller
                 'title' => 'Pentingnya Menjaga Kesehatan Mental di Era Digital',
                 'description' => 'Di era serba digital, menjaga kewarasan dan kesehatan mental menjadi tantangan tersendiri.',
                 'image' => asset('images/articles/tech-mental.jpg'),
-                'url' => '#',
+                'url' => 'https://www.halodoc.com/artikel/ini-alasan-pentingnya-menjaga-kesehatan-mental',
             ],
             [
                 'id' => 2,
                 'title' => 'Tips Mengelola Stres Pekerjaan',
                 'description' => 'Kenali tanda-tanda burnout dan cara mengatasinya agar tetap produktif dan bahagia.',
                 'image' => asset('images/articles/nature-calm.jpg'),
-                'url' => '#',
+                'url' => 'https://www.alodokter.com/kenali-jenis-stres-kerja-dan-cara-mengatasinya',
             ],
             [
                 'id' => 3,
                 'title' => 'Meditasi untuk Pemula',
                 'description' => 'Panduan singkat memulai kebiasaan meditasi untuk ketenangan pikiran.',
                 'image' => asset('images/articles/music-therapy.jpg'),
-                'url' => '#',
+                'url' => 'https://www.halodoc.com/artikel/ini-cara-meditasi-yang-benar-untuk-pemula',
             ],
             [
                 'id' => 4,
                 'title' => 'Pola Tidur dan Kesehatan Jiwa',
                 'description' => 'Hubungan erat antara kualitas tidur yang baik dengan stabilitas emosi.',
                 'image' => asset('images/articles/positive-morning.jpg'),
-                'url' => '#',
+                'url' => 'https://hellosehat.com/mental/hubungan-tidur-dan-mental/',
             ]
         ];
+
         $articles = $base;
+        // Gandakan agar slider penuh jika perlu
         foreach($base as $item) {
             $newItem = $item;
             $newItem['id'] += 4;
             $newItem['title'] .= ' (Part 2)';
             $articles[] = $newItem;
         }
+
         return array_map(function($item) {
             $item['date'] = $this->formatDate(now());
             $item['category'] = 'mental-health';
             $item['source'] = 'Recalm';
+            // URL sudah didefinisikan secara eksplisit di atas, jangan ditimpa Google Search
             return $item;
         }, $articles);
     }
+
     public function refreshCache()
     {
-        Cache::forget('indo_mental_health_articles_fixed_v2');
+        Cache::forget('newsdata_mental_health_v8');
         return response()->json(['message' => 'Cache cleared']);
     }
 }

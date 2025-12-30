@@ -1,22 +1,278 @@
 @extends('layouts.guest')
 
-@section('title', 'Mental Health Awareness')
+@section('title', 'Home Recalm')
 
 @section('content')
-<section class="py-5 bg-light">
-    <div class="container d-flex flex-column flex-md-row align-items-center">
-        <div class="col-md-6 mb-4 mb-md-0">
-            <h1 class="display-5 fw-bold text-primary">Take Care of Your Mental Health</h1>
-            <p class="lead text-secondary mt-3">
-                Your mind matters as much as your body.
-                Let’s build awareness and support each other for better mental well-being.
-            </p>
-            <a href="#learn-more" class="btn btn-primary btn-lg mt-3">Learn More</a>
+{{-- header section --}}
+<section class="hero position-relative bg-white pb-0 pt-0 overflow-hidden d-flex align-items-end" aria-label="Hero: Mental Health Awareness">
+    <div class="container-xl position-relative z-1 w-100">
+        <div class="row align-items-center w-100 h-100">
+            {{-- sisi kiri --}}
+            <div class="hero-content col-lg-6 ps-lg-5 mt-0 mb-4">
+                <h1 class="hero-title mb-3 fst-italic text-uppercase">
+                    <span class="d-inline-block">
+                        <span class="text-solid d-inline-block">YOU ARE</span>
+                        <span class="text-gradient d-inline-block"> NOT ALONE,</span>
+                    </span><br>
+                    <span class="line-2 text-gradient d-inline-block">WE’RE WITH YOU</span>
+                </h1>
+                <p class="hero-sub fw-light mt-0 mb-2 mb-lg-3 color-var">
+                    Recalm hadir untuk menemani kamu mengenali, menjaga,
+                    dan mengembangkan kesehatan emosimu.
+                </p>
+                @auth
+                    <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-4 px-4 py-2 text-white" href="{{ route('home') }}" role="button" aria-label="Masuk ke Dashboard"> Begin Your Journey </a>
+                @else
+                    <a class="btn-cta d-inline-flex align-items-center justify-content-center fw-bold text-decoration-none border-0 rounded-pill fs-4 px-4 py-2 text-white" href="#" role="button" aria-label="Mulai perjalanan - Begin Your Journey" data-bs-toggle="modal" data-bs-target="#authModal"> Begin Your Journey </a>
+                @endauth
+            </div>
+            {{-- sisi kanan --}}
+            <div class="col-lg-6 text-lg-end text-center pe-lg-5 mt-4 mt-lg-0 d-flex align-items-end justify-content-center justify-content-lg-end">
+                <figure class="m-0 d-flex align-items-end">
+                    <img class="hero-illustration img-fluid d-block mx-auto mb-0" src="{{ asset('images/landing-02.png') }}" alt="Ilustrasi kesehatan mental">
+                </figure>
+            </div>
         </div>
-        <div class="col-md-6 text-center">
-            <img src="{{ asset('images/utama.png') }}"
-                 alt="Mental Health Illustration"
-                 class="img-fluid rounded-4 shadow-sm w-75">
+    </div>
+    <!-- rumput -->
+    <img class="hero-ground  z-0 m-0 p-0" src="{{ asset('images/landing-01.png') }}" alt="" aria-hidden="true">
+</section>
+
+{{-- about section --}}
+<section class="about-section py-5" id="about">
+  <div class="container">
+    <div class="row align-items-center hero-about">
+      <!-- left: ilustrasi -->
+      <div class="col-12 col-lg-6 text-center mb-4 mb-lg-0">
+        <img src="{{ asset('images/about-img.png') }}"
+             alt="Mental Health Illustration"
+             class="about-img img-fluid rounded-4 mx-auto d-block">
+      </div>
+
+      <!-- right: logo, deskripsi, benefit -->
+      <div class="col-12 col-lg-6">
+        <!-- Logo (center) -->
+        <img src="{{ asset('images/Recalm-about02.png') }}"
+             alt="Logo Recalm"
+             class="about-logo mx-auto d-block mb-3" />
+
+        <!-- Deskripsi (center block, teks justify di CSS) -->
+        <p class="lead about-desc mx-auto mb-4">
+          Recalm adalah sebuah platform berbasis website yang membantu
+          individu dalam menjaga dan meningkatkan kesehatan mental
+          melalui konten edukatif, fitur konsultasi, serta dukungan
+          komunitas yang aman dan nyaman.
+        </p>
+
+        <!-- Benefit list (center block). gunakan utilitas Bootstrap ps-0 & mb-0 -->
+        <ul class="list-unstyled benefit-about mx-auto ps-0 mb-0">
+          <li class="benefit-item d-flex align-items-center">
+            <span class="benefit-icon flex-shrink-0 me-3" aria-hidden="true">
+              <img src="{{ asset('images/About-01.png') }}" alt="" width="44" height="44">
+            </span>
+            <span class="benefit-text">Temani Perjalanan Kesehatan Mentalmu</span>
+          </li>
+
+          <li class="benefit-item d-flex align-items-center">
+            <span class="benefit-icon flex-shrink-0 me-3" aria-hidden="true">
+              <img src="{{ asset('images/About-02.png') }}" alt="" width="44" height="44">
+            </span>
+            <span class="benefit-text">Ruangan Aman untuk Mengenal Dirimu</span>
+          </li>
+
+          <li class="benefit-item d-flex align-items-center">
+            <span class="benefit-icon flex-shrink-0 me-3" aria-hidden="true">
+              <img src="{{ asset('images/About-03.png') }}" alt="" width="44" height="44">
+            </span>
+            <span class="benefit-text">Your Daily Mental Wellness Companion</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{{-- feature section --}}
+<section class="feature-section overflow-hidden" id="feature">
+    <div class="feature-content-wrapper">
+        <!-- decorative background TOP (decorative: aria-hidden) -->
+        <img src="{{ asset('images/hutan-feature01.png') }}" alt="" class="feature-bg-top" aria-hidden="true">
+
+        <div class="container-xl px-lg-5 position-relative z-2">
+            <div class="text-center text-white mb-5">
+                <h2 class="display-5 fw-bold mb-2 fst-italic">OUR FEATURES</h2>
+                <p class="mb-0">Bukan cuma nemenin, Recalm selalu ada buat kamu</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <article class="col-12 col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body text-center">
+                            <img src="{{ asset('images/book-01.png') }}"
+                                alt="" class="feature-icon mb-3" aria-hidden="true">
+                            <h3 class="h5 fw-semibold mb-2">Educational Articles</h3>
+                            <p class="text-muted mb-0"> Baca artikel dan panduan untuk memahami kesehatan emosionalmu lebih baik </p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body text-center">
+                            <img src="{{ asset('images/note-02.png') }}" alt="" class="feature-icon mb-3" aria-hidden="true">
+                            <h3 class="h5 fw-semibold mb-2">Taking Note</h3>
+                            <p class="text-muted mb-0"> Tuliskan mood dan pengalamanmu agar lebih mudah memahami diri sendiri. </p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6 col-lg-4">
+                    <div class="card feature-card h-100 border-0">
+                        <div class="card-body text-center">
+                            <img src="{{ asset('images/ai-03.png') }}" alt="" class="feature-icon mb-3" aria-hidden="true">
+                            <h3 class="h5 fw-semibold mb-2">AI Support Chat</h3>
+                            <p class="text-muted mb-0"> Ngobrol dengan AI untuk mendapatkan dukungan dan penjelasan yang kamu butuhkan. </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- decorative people (absolute; non-interactive) -->
+        <img src="{{ asset('images/people-feature01.png') }}" alt="" class="feature-people feature-people-left" aria-hidden="true">
+        <img src="{{ asset('images/people-feature02.png') }}" alt="" class="feature-people feature-people-right" aria-hidden="true">
+
+        <!-- decorative background BOTTOM -->
+        <img src="{{ asset('images/hutan-feature02.png') }}" alt="" class="feature-bg-bottom" aria-hidden="true">
+    </div>
+</section>
+
+{{-- article section --}}
+<section id="landing-article" class="py-5 position-relative">
+    <div class="container-xl px-lg-5">
+        <div class="mb-4">
+            <h2 class="header-artikel display-5 fw-bold fst-italic text-uppercase mb-1">Mental Health Article</h2>
+            <p class="lead" style="max-width: 600px; font-size: 1rem; color: #1F3483;">
+                Pelajari berbagai topik seputar kesehatan mental melalui artikel yang informatif, mudah dipahami, dan relevan untuk kehidupan sehari-hari
+            </p>
+        </div>
+
+        @include('review.components.artikel', ['showHeader' => false])
+
+        <a href="https://news.google.com/search?q=Kesehatan%20Mental&hl=id&gl=ID&ceid=ID%3Aid" class="more-articles-link d-inline-flex align-items-center mt-3 text-decoration-none" style="color: #4255d9; font-size: 1.1rem;">
+            More articles <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>
+
+
+{{-- motivate section --}}
+<section class="motivation-section d-none d-lg-flex align-items-center justify-content-center overflow-hidden position-relative mx-auto" style="max-width: 1920px;">
+    <div id="motivationCarousel" class="carousel slide carousel-fade w-100 h-100" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-inner h-100">
+            @foreach($motivations as $index => $quote)
+            <div class="carousel-item h-100 {{ $index === 0 ? 'active' : '' }}">
+                 <div class="d-flex align-items-center justify-content-center h-100 w-100 px-3">
+                    <p class="motivation-text mb-0">{{ $quote }}</p>
+                 </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- Mobile fallback (simpler height/font) --}}
+<section class="motivation-section d-flex d-lg-none align-items-center justify-content-center overflow-hidden position-relative w-100 mx-auto" style="max-width: 1920px;">
+    <div id="motivationCarouselMobile" class="carousel slide carousel-fade w-100 h-100" data-bs-ride="carousel" data-bs-interval="3500">
+         <div class="carousel-inner h-100">
+            @foreach($motivations as $index => $quote)
+            <div class="carousel-item h-100 {{ $index === 0 ? 'active' : '' }}">
+                 <div class="d-flex align-items-center justify-content-center h-100 w-100 px-3">
+                     <p class="motivation-text mobile mb-0">{{ $quote }}</p>
+                 </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+
+{{-- timdev section --}}
+<section class="team-section py-5 mt-5" id="teamdev">
+    <div class="container-xl px-lg-5">
+         <div class="text-center mb-5">
+            <h2 class="team-header display-5 fw-bold fst-italic text-uppercase">LET’S MEET OUR TEAM</h2>
+        </div>
+
+        {{-- Desktop Team Carousel--}}
+        <div id="teamCarousel" class="carousel slide d-none d-lg-block" data-bs-interval="false">
+            <div class="carousel-inner">
+                @foreach(array_chunk($teamMembers, 4) as $chunkIndex => $chunk)
+                <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
+                    <div class="row g-4 justify-content-center px-4">
+                        @foreach($chunk as $member)
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="team-card position-relative">
+                                <!-- Image Container -->
+                                <div class="team-image-wrapper">
+                                     <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" class="team-image">
+                                </div>
+
+                                <!-- Content Box -->
+                                <div class="team-content">
+                                    <h4 class="team-name">{{ $member['name'] }}</h4>
+                                    <p class="team-moto mb-0">{{ $member['moto'] }}</p>
+                                </div>
+                                  <!-- Social Button -->
+                                  <a href="{{ $member['social_link'] }}" class="team-social-btn" aria-label="Social Media">
+                                      <i class="bi bi-arrow-right"></i>
+                                  </a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            @if(count($teamMembers) > 4)
+            <button class="carousel-control-prev team-nav-btn start-0" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
+                <span class="carousel-control-icon-wrapper">
+                    <i class="bi bi-chevron-left"></i>
+                </span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next team-nav-btn end-0" type="button" data-bs-target="#teamCarousel" data-bs-slide="next">
+                <span class="carousel-control-icon-wrapper">
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            @endif
+        </div>
+
+        {{-- Mobile Team Carousel --}}
+        <div id="teamCarouselMobile" class="carousel slide d-lg-none" data-bs-ride="carousel" data-bs-interval="3000">
+             <div class="carousel-inner">
+                @foreach($teamMembers as $index => $member)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <div class="d-flex justify-content-center px-2 pb-4">
+                        <div class="team-card position-relative" style="max-width: 320px;">
+                            <!-- Image Container -->
+                            <div class="team-image-wrapper">
+                                    <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" class="team-image">
+                            </div>
+
+                            <!-- Content Box -->
+                            <div class="team-content">
+                                <h4 class="team-name">{{ $member['name'] }}</h4>
+                                <p class="team-moto mb-0">{{ $member['moto'] }}</p>
+                            </div>
+                                <!-- Social Button -->
+                                <a href="{{ $member['social_link'] }}" class="team-social-btn" aria-label="Social Media">
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>

@@ -2,88 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\notes;
+use App\Models\notes as Notes; // Alias for clarity
 use Illuminate\Http\Request;
-use App\Http\Controllers\Note;
-use RealRashid\SweetAlert\Facades\Alert;
-
 
 class NoteController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $pageTitle = 'Daily Notes';
-        return view('notes',[
-            'pageTitle' => $pageTitle,
-
-
-     ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store a newly created note in storage.
+     * This method handles the form submission from the Notes page.
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        // Validasi input
+        // 1. Validate Input (Ensure note and mood are present)
         $request->validate([
             'note-field' => 'required|string',
             'mood' => 'required',
         ]);
 
-        // Simpan data ke database
+        // 2. Save Data to Database
         $note = new Notes();
-        $note->user_id = auth()->id();
+        $note->user_id = auth()->id(); // Link note to current logged-in user
         $note->note = $request->input('note-field');
         $note->mood = $request->input('mood');
         $note->save();
 
-
-
+        // 3. Redirect back with success message
         return redirect()->route('notes')->with('success', 'Data berhasil disimpan!');
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-
     }
 }
