@@ -10,26 +10,32 @@ use Illuminate\Support\Facades\Log;
 class ArtikelController extends Controller
 {
     /**
-     * Fetch mental health articles from NewsData.io API.
-     * Caches results for 6 hours.
+     * URL API NewsData.io
+     * Mengambil artikel kesehatan mental di Indonesia
      */
+    private $newsApiUrl = 'https://newsdata.io/api/1/latest?apikey=pub_808ba9013a304b64a1eeea0ddc3c31c2&q=Kesehatan%20Mental&country=id&language=id&category=health&timezone=Asia/Jakarta';
+
     public function getArticles()
     {
-        return Cache::remember('newsdata_mental_health_v8', 21600, function () {
-            Log::info('Fetching articles from NewsData.io...');
+        // Cache selama 6 jam (21600 detik) untuk menghemat kuota API
+        return Cache::remember('newsdata_mental_health_v11', 21600, function () {
+            Log::info('Memulai pengambilan artikel dari NewsData.io...');
 
             $articles = $this->fetchFromAPI();
 
-            // Ensure exactly 8 articles by filling with fallbacks if needed
+            // Logika baru: Pastikan total 8 artikel
             $needed = 8 - count($articles);
 
             if ($needed > 0) {
-                Log::info("API returned " . count($articles) . ", fetching $needed fallbacks.");
+                Log::info("API hanya returning " . count($articles) . ", mengambil $needed fallback.");
                 $fallbacks = $this->getFallbackArticles();
+
+                // Ambil fallback secukupnya untuk digabung
                 $extras = array_slice($fallbacks, 0, $needed);
                 $articles = array_merge($articles, $extras);
             }
 
+            // Pastikan tepat 8
             return array_slice($articles, 0, 8);
         });
     }
@@ -128,24 +134,28 @@ class ArtikelController extends Controller
                 'title' => 'Pentingnya Menjaga Kesehatan Mental di Era Digital',
                 'description' => 'Di era serba digital, menjaga kewarasan dan kesehatan mental menjadi tantangan tersendiri.',
                 'image' => asset('images/articles/tech-mental.jpg'),
+                'url' => 'https://www.halodoc.com/artikel/ini-alasan-pentingnya-menjaga-kesehatan-mental',
             ],
             [
                 'id' => 2,
                 'title' => 'Tips Mengelola Stres Pekerjaan',
                 'description' => 'Kenali tanda-tanda burnout dan cara mengatasinya agar tetap produktif dan bahagia.',
                 'image' => asset('images/articles/nature-calm.jpg'),
+                'url' => 'https://www.alodokter.com/kenali-jenis-stres-kerja-dan-cara-mengatasinya',
             ],
             [
                 'id' => 3,
                 'title' => 'Meditasi untuk Pemula',
                 'description' => 'Panduan singkat memulai kebiasaan meditasi untuk ketenangan pikiran.',
                 'image' => asset('images/articles/music-therapy.jpg'),
+                'url' => 'https://www.halodoc.com/artikel/ini-cara-meditasi-yang-benar-untuk-pemula',
             ],
             [
                 'id' => 4,
                 'title' => 'Pola Tidur dan Kesehatan Jiwa',
                 'description' => 'Hubungan erat antara kualitas tidur yang baik dengan stabilitas emosi.',
                 'image' => asset('images/articles/positive-morning.jpg'),
+                'url' => 'https://hellosehat.com/mental/hubungan-tidur-dan-mental/',
             ]
         ];
 
@@ -162,7 +172,7 @@ class ArtikelController extends Controller
             $item['date'] = $this->formatDate(now());
             $item['category'] = 'mental-health';
             $item['source'] = 'Recalm';
-            $item['url'] = 'https://www.google.com/search?q=' . urlencode($item['title']);
+            // URL sudah didefinisikan secara eksplisit di atas, jangan ditimpa Google Search
             return $item;
         }, $articles);
     }

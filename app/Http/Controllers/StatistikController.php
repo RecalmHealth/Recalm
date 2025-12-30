@@ -174,6 +174,11 @@ class StatistikController extends Controller
             ->latest()
             ->get();
 
+        // 5. Calculate Total Mood Counts for PDF (Based on Filtered Data)
+        $totalSenang = $notes->where('Mood', 'Senang')->count();
+        $totalMarah = $notes->where('Mood', 'Marah')->count();
+        $totalSedih = $notes->where('Mood', 'Sedih')->count();
+
         return compact(
             'labels',
             'senangData',
@@ -184,7 +189,10 @@ class StatistikController extends Controller
             'insightDesc',
             'insightColor',
             'insightIcon',
-            'historyNotes'
+            'historyNotes',
+            'totalSenang',
+            'totalMarah',
+            'totalSedih'
         );
     }
 }

@@ -42,7 +42,7 @@
         @if(!isset($latestNote) || !$latestNote)
         <div class="d-flex button-mood gap-3 mt-3">
           <a href="{{ route('notes') }}" class="btn btn-light btn-sm fw-semibold rounded-2" aria-label="Buat Catatan">Buat Catatan</a>
-          <a href="{{ route('review.index') }}" class="btn btn-outline-light fw-semibold btn-sm rounded-2" aria-label="Lihat Catatan">Lihat Catatan</a>
+          <a href="{{ route('statistik') }}" class="btn btn-outline-light fw-semibold btn-sm rounded-2" aria-label="Lihat Catatan">Lihat Catatan</a>
         </div>
         @endif
       </div>
